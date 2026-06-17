@@ -1,0 +1,245 @@
+---
+# IMPORTANT: Change settings here, but DO NOT change the spacing.
+# Remove comments and add values where applicable.
+# The descriptions below should be self-explanatory
+
+title: "What makes us happy?"
+#subtitle: "This will appear as Right Header"
+
+documentclass: "elsarticle"
+
+# --------- Thesis title (Optional - set to FALSE by default).
+# You can move the details below around as you please.
+Thesis_FP: FALSE
+# Entry1: "An unbelievable study with a title spanning multiple lines."
+# Entry2: "\\textbf{Nico Katzke}" # textbf for bold
+# Entry3: "A thesis submitted toward the degree of Doctor of Philosophy"
+# Uni_Logo: Tex/Logo.png # Place a logo in the indicated location (from your root, e.g. defaults to ~/Tex/Logo.png) and uncomment this line. Leave uncommented for no image
+# Logo_width: 0.3 # If using a logo - use this to set width (size) of image
+# Entry4: "Under the supervision of: \\vfill Prof. Joe Smith and Dr. Frank Smith"
+# Entry5: "Stellenbosch University"
+# Entry6: April 2020
+# Entry7:
+# Entry8:
+
+# --------- Front Page
+# Comment: ----- Follow this pattern for up to 5 authors
+AddTitle: TRUE # Use FALSE when submitting to peer reviewed platform. This will remove author names.
+Author1: "Nico Katzke^[__Contributions:__  \\newline _The authors would like to thank the World Happiness survey for showing us what happiness is._]"  # First Author - note the thanks message displayed as an italic footnote of first page.
+Ref1: "Satrix, Cape Town" # First Author's Affiliation
+Email1: "nfkatzke\\@gmail.com" # First Author's Email address
+
+CorrespAuthor_1: TRUE  # If corresponding author is author 3, e.g., use CorrespAuthor_3: TRUE
+
+# Comment out below to remove both. JEL Codes only given if keywords also given.
+# keywords: "Multivariate GARCH \\sep Kalman Filter \\sep Copula" # Use \\sep to separate
+# JELCodes: "L250 \\sep L100"
+
+# ----- Manage headers and footers:
+#BottomLFooter: $Title$
+#BottomCFooter:
+#TopLHeader: \leftmark # Adds section name at topleft. Remove comment to add it.
+BottomRFooter: "\\footnotesize Page \\thepage" # Add a '#' before this line to remove footer.
+addtoprule: TRUE
+addfootrule: TRUE               # Use if footers added. Add '#' to remove line.
+
+# --------- page margins:
+margin: 2.3 # Sides
+bottom: 2 # bottom
+top: 2.5 # Top
+HardSet_layout: TRUE # Hard-set the spacing of words in your document. This will stop LaTeX squashing text to fit on pages, e.g.
+# This is done by hard-setting the spacing dimensions. Set to FALSE if you want LaTeX to optimize this for your paper.
+
+# --------- Line numbers
+linenumbers: FALSE # Used when submitting to journal
+
+# ---------- References settings:
+# You can download cls format here: https://www.zotero.org/ - simply search for your institution. You can also edit and save cls formats here: https://editor.citationstyles.org/about/
+# Hit download, store it in Tex/ folder, and change reference below - easy.
+bibliography: Tex/ref.bib       # Do not edit: Keep this naming convention and location.
+csl: Tex/harvard-stellenbosch-university.csl # referencing format used.
+# By default, the bibliography only displays the cited references. If you want to change this, you can comment out one of the following:
+#nocite: '@*' # Add all items in bibliography, whether cited or not
+# nocite: |  # add specific references that aren't cited
+#  @grinold2000
+#  @Someoneelse2010
+
+# ---------- General:
+RemovePreprintSubmittedTo: TRUE  # Removes the 'preprint submitted to...' at bottom of titlepage
+Journal: "Journal of Finance"   # Journal that the paper will be submitting to, if RemovePreprintSubmittedTo is set to TRUE.
+toc: FALSE                       # Add a table of contents
+numbersections: TRUE             # Should sections (and thus figures and tables) be numbered?
+fontsize: 11pt                  # Set fontsize
+linestretch: 1.2                # Set distance between lines.
+link-citations: TRUE            # This creates dynamic links to the papers in reference list.
+
+### Adding additional latex packages:
+# header-includes:
+#    - \usepackage{colortbl} # Add additional packages here.
+
+output:
+  pdf_document:
+    keep_tex: TRUE
+    template: Tex/TexDefault.txt
+    fig_width: 3.5 # Adjust default figure sizes. This can also be done in the chunks of the text.
+    fig_height: 3.5
+abstract: |
+  This article aims to discuss what makes us happy. This is a suggested solution to question 1.
+---
+
+
+
+
+<!-- ############################## -->
+<!-- # Start Writing here: -->
+<!-- ############################## -->
+
+# Introduction \label{Introduction}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
+
+if(!require ( "pacman" , quietly = TRUE ) ) {
+   install.packages("pacman")
+   library(pacman)
+   }
+
+pacman::p_load(purrr, lubridate, tidymodels, ggridges, ggthemes, readxl, tidyverse, lubridate, zoo, pwt10,janitor, ggsci)
+
+list.files('code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+coffee_data <- read.csv("data/Coffee/Coffee.csv") %>% 
+    clean_names() %>%
+  mutate(roast = na_if(roast, "")) %>%
+  drop_na(roast)
+
+```
+
+
+View the data
+
+```{r}
+coffee_data %>% 
+    distinct(loc_country)
+
+head(coffee_data, 10)
+
+```
+
+#### Plot 1 
+Average price and rating by country. Australia and England are clear outliers. Although roasters in these countries have, on average, the highest ratings, all the countries recieve a n averge rating of 90 or above. I would suggest that the prices disqualify the further inclusion of Australian and English roasters.
+
+```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+g <-
+    plot_rating_vs_price(data = coffee_data, group_var = loc_country, title = "Average Rating and Price by Roaster Country")
+    
+g
+
+```
+
+#### Plot 2
+Picture without outliers
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+coffee_filtered <- coffee_data %>% 
+    filter(!loc_country %in% c("Australia", "England"))
+
+g <-
+    plot_rating_vs_price(data = coffee_filtered, group_var = loc_country, title = "Average Rating and Price by Location of Roaster without Outliers")
+    
+g
+```
+
+#### Plot 3 
+Light roast has the highest average rating, but also the highest average cost. Dark has the lowest average rating and the lowest cost. Medium-light and medium roast offer a middle-ground.
+
+```{r}
+coffee_filtered %>% distinct(roast)
+
+coffee_data %>%
+  summarise(
+    across(c(roast, cost_per_100g, rating), 
+           list(n_na = ~sum(is.na(.)),
+                n_blank = ~sum(. == "", na.rm = TRUE)))
+  )
+
+```
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+g <-
+    plot_rating_vs_price(data = coffee_filtered, group_var = roast, title = "Average Rating and Price by Roast Level")
+    
+g
+```
+
+### Indicator words
+
+Wrangle the data using a function:
+
+```{r}
+coffee_indicators <- extract_indicator_words(data = coffee_filtered)
+
+head(coffee_indicators, 10)
+
+# wow, that actually worked
+```
+
+#### 4
+Now for completedness, I'll use my plot function to get an idea of what I am looking at. This plot indicates that coffee brands that have reviews describing the aroma and chocolatiness of the coffee are the best deal when it comes to the ratings-price relationship. Subsequent analysis will be focused on these observations.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+g <-
+    plot_rating_vs_price(data = coffee_indicators, group_var = matched_words, title = "Average Rating and Price by Review Indicator Words")
+    
+g
+
+```
+#### Plot 5
+The goal is to trim the most expensive. Boxplot shows outliers in red.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+d <- plot_cost_boxplot(data = coffee_indicators)
+d
+
+```
+#### Plot 6
+Further cutoff determination
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+d <- plot_cost_distribution(data = coffee_indicators, cutoff = 8)
+d
+```
+
+
+
+#### Plot 6 tile
+This plot depicts the average ratings by roaster and roast level.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+f <- plot_choc_aroma_tile(data = coffee_indicators)
+f
+
+```
+
+
+<!-- Make title of bibliography here: -->
+<!-- \newpage -->
+
+\newpage
+
+# References {-}
+
+<div id="refs"></div>
+
+
+# Appendix {-}
+
+## Appendix A {-}
+
+Some appendix information here
+
+## Appendix B {-}
+

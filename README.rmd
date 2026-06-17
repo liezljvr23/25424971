@@ -1,0 +1,37 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+# Purpose
+
+Purpose of this work folder.
+
+Ideally store a minimum working example data set in data folder.
+
+Add binary files in bin, and closed R functions in code. Human Readable settings files (e.g. csv) should be placed in settings/
+
+
+### Folder set-up
+
+```{r}
+CHOSEN_LOCATION <- "/Users/liezljansenvanrensburg/Desktop/data science/25424971"
+fmxdat::make_project(Mac = TRUE, Open = FALSE)
+
+Texevier::create_template(directory = glue::glue("{CHOSEN_LOCATION}/"), template_name = "25424971Question1")
+Texevier::create_template(directory = glue::glue("{CHOSEN_LOCATION}/"), template_name = "25424971Question2")
+Texevier::create_template(directory = glue::glue("{CHOSEN_LOCATION}/"), template_name = "25424971Question3")
+Texevier::create_template(directory = glue::glue("{CHOSEN_LOCATION}/"), template_name = "25424971Question4")
+```
+
+
+```{r}
+
+rm(list = ls()) # Clean your environment:
+gc() # garbage collection - It can be useful to call gc after a large object has been removed, as this may prompt R to return memory to the operating system.
+library(tidyverse)
+list.files('code/', full.names = T, recursive = T) %>% .[grepl('.R', .)] %>% as.list() %>% walk(~source(.))
+```
+
+
