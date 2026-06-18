@@ -173,7 +173,9 @@ f
 
 ```
 
-# Question 2:
+# Question 2: Baby Names
+
+This report explores the persistence in baby name trends, as well as the potential influence of popular culture on these trends using US name data from 1910-2014.
 
 ```{r setup}
 # set up
@@ -201,9 +203,6 @@ hbo_credits <- read_rds("25424971Question2/data/US_Baby_names/HBO_credits.rds") 
     clean_names
 
 ```
-
-## Introduction
-This report explores the persistence in baby name trends, as well as the potential influence of popular culture on these trends.
 
 ### Spearman Rank Correlation
 I like the idea of state-level data (especially New York), but for this process, I will aggregate to a national level through the national ranked function.  I will get the top 25 most popular for girls and boys. I will look at t, t+1, t+2, and t+3.
@@ -233,7 +232,7 @@ I want to make a function that spits out the names that have surged in popularit
 
 Only 24% of the names have experienced a year-on-year surge greater than 5000% between 1910-2014 are boy names. The plot below inspects the popularity of the name "Mallory" over time. "Mallory" spiked in 1983 following the 1982 premiere of "Family Ties" that included the character, Mallory Keaton. It's popularity dulled over the years, illustrating the influence of popular culture on baby names.
 
-```{r, include=FALSE}
+```{r}
 name_surges <- get_surges(national_ranked)
 
 ```
@@ -245,7 +244,7 @@ b
 ```
 
 
-### Name Trends: Jude
+### Name Influences: Jude
 Inspired by the Beatles documentary, "Get Back", I want to look into "Jude". It looks like it gained more popularity in the 2000s. When I think of the name, I think of Jude Law. I'll see if he is credited and when his breakout roles were (The Talented Mr Ripley was released in 1999). 
 
 According to the Billbord Hot 100, The Beatles's hit song, "Hey Jude", was charting for 19 weeks between 1968 and 1969. Further, the credits for popular films reveal that Jude Law stardom may also drive interest in this gender neutral name. These two case studies depict the impact of the media in naming conventions
@@ -260,3 +259,182 @@ b
 ## Conclusion
 Baby name trends are increasingly less persistent. This means that toy names must quickly adapt, especially those marketed towards girls. To stay on top of the trends, popular media must be studied. Through analysing song charts and IMDb ratings, the company can stay inline with the curve.  
 
+# Question 3: Loans and Credit
+The key drivers of default risk are explored. The following factors of individuals are considered: whether the income source was verified, the debt-to-income ratio, the number of year that the individual has had any sort of credit line, prior bankruptcies, the number of mortgage accounts, bankcard utilisation,  interest rate, term length, and history of credit behaviour.
+
+I create a function to clean the data. Irrelevant columns are dropped (I could have been more liberal with this), the term variable is mutated into a number, and employment length into an ordered factor (later on other variables are mutated in plot functions). There are 7 categories under the loan status. I am trying to think of how to divide them. I am unsure of how to categorise them, so I make a few variables. I create a binary variable (concluded_loan), where 1 is loss and default, and 0 is fully paid. (I had to do some digging to understand that "default" means that there is still hope of some recovery and "charged off" means that a loss is official).  I believe that default should be included for completedness. I make broader variable (loan_outcome) that has 5 categories (fully paid, charged off, current, partial default, and default). 
+
+For analysis, I will look at concluded loans only (either fully paid or  loss/default). I make a function to pull only this data and create an object for resolved loans.
+
+```{r}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
+
+if(!require ( "pacman" , quietly = TRUE ) ) {
+   install.packages("pacman")
+   library(pacman)
+}
+
+if(!require ( "stargazer" , quietly = TRUE ) ) {
+   install.packages("stargazer")
+   library(stargazer)
+   }
+
+pacman::p_load(purrr, lubridate, tidymodels, ggridges, ggthemes, readxl, tidyverse, lubridate, zoo, pwt10,janitor, ggsci, haven, knitr)
+
+list.files('25424971Question3/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+# load data
+loan_credit <- read_rds("25424971Question3/data/Loan_Cred/loan_data.rds")
+
+# New category variables are created and the dataframe is simplified.
+loan_clean <- get_clean_loans(loan_credit)
+loan_resolved <- make_loan_resolved(loan_clean)
+```
+
+## Inspecting the Hypothesised Key Drivers
+Summary statistics on the key variables reveal the need for tweaks in the data cleaning. The Debt-to-Income ratio has a maximum value of 999, which indicates the presence of outliers. It also has a negative minimum value, which feels incorrect. Utilisation also has outliers. The cleaning function is adapted to filter to trim and correct these and to declare verification status variable as a factor and the earliest credit line variable is mutated to an age. This yields satisfactory summary statistics
+
+
+```{r}
+loan_resolved %>% 
+    select(verification_status, dti, credit_age_yrs, 
+           pub_rec_bankruptcies, pct_tl_nvr_dlq, 
+           mort_acc, bc_util, num_rev_accts) %>% 
+    summary()
+```
+
+## Logistic Regression Models
+Concluded loans is my dependent variable. Since it is binary, I will use a logit. The second regression adds the credit grade, interest rate, and term length as regressors.
+
+```{r}
+logit_model_1 <- glm(concluded_loan ~ verification_status + dti + credit_age_yrs +
+                       pub_rec_bankruptcies + pct_tl_nvr_dlq + 
+                       mort_acc + bc_util + num_rev_accts,
+                   data   = loan_resolved,
+                   family = binomial(link = "logit"))
+
+
+logit_model_2 <- glm(concluded_loan ~ verification_status + dti + credit_age_yrs +
+                         pub_rec_bankruptcies + pct_tl_nvr_dlq + 
+                         mort_acc + bc_util + num_rev_accts +
+                         grade + int_rate + term,
+                     data   = loan_resolved,
+                     family = binomial(link = "logit"))
+
+```
+### Results from Logistic Regressions
+Across both specifications, all the coefficients are statistically significant, justifying their statuses as key drivers of default risk. The Lending Club's credit grade system proves to be great indicator of debt default, with lower grades being associated with an increased probability of default. The DTI ratio, prior bankruptcies, and bankcard utilisation are also associated with increased default risk. The number of mortgage accounts and never having missed payments on debt are associated with a lower default rate. Although the positive relationship between verification status and default risk may seem counterintuitive, it indicates selection bias, where a background check is run on individuals who are in a worse financial position.
+```{r, warning =  FALSE}
+stargazer(logit_model_1, logit_model_2,
+          type        = "text",           # use "html" if outputting to HTML Rmd
+          title       = "Logistic Regression: Predictors of Loan Default",
+          dep.var.labels = "Default (1 = Loss, 0 = Paid)",
+          covariate.labels = c("Source Verified", "Verified",
+                               "DTI", "Credit Age",
+                               "Prior Bankruptcies", "% Never Delinquent",
+                               "Mortgage Accounts", "Bankcard Utilisation",
+                               "No. Revolving Accounts",
+                               "Grade B", "Grade C", "Grade D",
+                               "Grade E", "Grade F", "Grade G",
+                               "Interest Rate", "Term"),
+          #apply.coef  = exp,              # shows odds ratios instead of log-odds
+          p.auto      = TRUE,
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          no.space    = TRUE)
+```
+
+## Default-Risk Customer Profiles
+This section explores the various characteristics of indivuduals and how these may indicate their propensity to default on their debt. I start by analysing credit grades, as that was deemed a key risk driver in the regressions. If I take the average of the binary dependent by credit grade, that will indicate the "default rate" for each grade. Here, defaulting is charged off and defaulted loans (1).  I am going to create a function so that I can view default rates across categorical variables. Viewing default rates across states requires its own function so that I can make some tweaks in the layout.
+
+### Default Rate by Lending Club’s Grading System 
+The plot below illustrates that default rates increase as credit grades worsen. Customers that are assigned poor Lending Club credit grades are at higher risk of defaulting on their debt.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+
+d <- plot_default_by_group(loan_resolved, grade,
+                      title   = "Default Rate by Credit Grade",
+                      x_label = "Credit Grade")
+d
+
+```
+
+### Default Rate by Home Ownership
+Individuals that rent instead of own their house/mortgage have an average default rate of 26.9%. Owning a mortgage is associated with the lowest average default rate, supporting the findings of the logit regression, where the number of mortgages negatively relates to the default rate. This may simply be a proxy for income.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+
+d <- plot_default_by_group(loan_resolved, home_ownership,
+                      title   = "Default Rate by Home Ownership",
+                      x_label = "Home Ownership"
+                      )
+d
+
+```
+
+### Default Rate by Employment Length
+The default rate appers to be similarly distributed across employment lengths, with a slight downward trend, such that longer employment years (stable income) indicate a slightly lower risk of default. 
+
+```{r, warning =  FALSE, fig.align = 'center',  fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+
+c <- plot_default_by_group(loan_resolved, emp_length,
+                      title   = "Default Rate by Employment Length",
+                      x_label = "Employment Length")
+                      
+c
+
+```
+
+### Default Rate by State for Both Long and Short Term Loans
+Arkansas, Los Angeles, Mississipi, Nebraska, and Oklahoma have the highest average default rates, signalling that individuals from these states iintroduce increased risk. Whereas individuals from DC, Maine, New Hampshire, Oregan, Vermont, and West Virginia signal prudence, as these states have the lowest average default rates.
+
+```{r, warning =  FALSE, fig.align = 'center',  fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+
+c <-  plot_default_by_state(loan_resolved)
+                      
+c
+
+```
+
+### Default Rate by State for Short Term Loans Only
+The state analysis is similar when only short-term loans are considered.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+
+c <-  ST_plot_default_by_state(loan_resolved)
+                      
+c
+
+```
+
+### Default Rate by Purpose of Loan
+Individuals who cite funding a small business or planning a wedding as the reason for their debt obligations are at the highest risk of defaulting on their loans.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+
+c <- plot_default_by_group(loan_resolved, purpose,
+                      title   = "Default Rate by Purpose of Debt",
+                      x_label = "Purpose")
+                      
+c
+
+```
+
+## The Debt-to-Income and Loan Status Relationship
+The average debt-to-income ratio is the highest for those who have defaulted on their loans and completely written their loans off, although the variance is not large across these broader loan status groups.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+
+c <-  plot_dti_by_outcome(loan_clean)
+                      
+c
+```
+
+## Conclusion
+Multiple factors must be considered when approving loan applications to ensure that the default rate is minimised. By scrutinizing over where individuals reside, the debt-to-income ratios, the purpose of the credit, the credit category, home ownership, length of employment, debt history, and bankcard utilisation, debt default risk can be improved.

@@ -1,0 +1,454 @@
+\documentclass[11pt,preprint]{elsarticle}
+
+\usepackage{lmodern}
+%%%% My spacing
+\usepackage{setspace}
+\setstretch{1.2}
+\DeclareMathSizes{12}{14}{10}{10}
+
+% Wrap around which gives all figures included the [H] command, or places it "here". This can be tedious to code in Rmarkdown.
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+
+\let\origtable\table
+\let\endorigtable\endtable
+\renewenvironment{table}[1][2] {
+    \expandafter\origtable\expandafter[H]
+} {
+    \endorigtable
+}
+
+
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts}
+
+\def\bibsection{\section*{References}} %%% Make "References" appear before bibliography
+
+
+\usepackage[numbers]{natbib}
+
+\usepackage{longtable}
+\usepackage[margin=2.3cm,bottom=2cm,top=2.5cm, includefoot]{geometry}
+\usepackage{fancyhdr}
+\usepackage[bottom, hang, flushmargin]{footmisc}
+\usepackage{graphicx}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1.3ex plus 0.5ex minus 0.3ex}
+\usepackage{textcomp}
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+\usepackage{array}
+\newcolumntype{x}[1]{>{\centering\arraybackslash\hspace{0pt}}p{#1}}
+
+%%%%  Remove the "preprint submitted to" part. Don't worry about this either, it just looks better without it:
+
+ \def\tightlist{} % This allows for subbullets!
+
+\usepackage{hyperref}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=blue,
+            pdfborder={0 0 0}}
+
+
+% The following packages allow huxtable to work:
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{calc}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{caption}
+
+
+\newenvironment{columns}[1][]{}{}
+
+\newenvironment{column}[1]{\begin{minipage}{#1}\ignorespaces}{%
+\end{minipage}
+\ifhmode\unskip\fi
+\aftergroup\useignorespacesandallpars}
+
+\def\useignorespacesandallpars#1\ignorespaces\fi{%
+#1\fi\ignorespacesandallpars}
+
+\makeatletter
+\def\ignorespacesandallpars{%
+  \@ifnextchar\par
+    {\expandafter\ignorespacesandallpars\@gobble}%
+    {}%
+}
+\makeatother
+
+
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+\href{\#cite.\detokenize{#1}}{#2}\nocite{#1}}
+
+\makeatletter
+% allow citations to break across lines
+\let\@cite@ofmt\@firstofone
+% avoid brackets around text for \cite:
+\def\@biblabel#1{}
+\def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+{\begin{list}{}{%
+	\setlength{\itemindent}{0pt}
+	\setlength{\leftmargin}{0pt}
+	\setlength{\parsep}{0pt}
+	% turn on hanging indent if param 1 is 1
+	\ifodd #1
+	\setlength{\leftmargin}{\cslhangindent}
+	\setlength{\itemindent}{-1\cslhangindent}
+	\fi
+	% set entry spacing
+	\setlength{\itemsep}{#2\baselineskip}}}
+{\end{list}}
+
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+%%% Include extra packages specified by user
+
+%%% Hard setting column skips for reports - this ensures greater consistency and control over the length settings in the document.
+%% page layout
+%% paragraphs
+\setlength{\baselineskip}{12pt plus 0pt minus 0pt}
+\setlength{\parskip}{12pt plus 0pt minus 0pt}
+\setlength{\parindent}{0pt plus 0pt minus 0pt}
+%% floats
+\setlength{\floatsep}{12pt plus 0 pt minus 0pt}
+\setlength{\textfloatsep}{20pt plus 0pt minus 0pt}
+\setlength{\intextsep}{14pt plus 0pt minus 0pt}
+\setlength{\dbltextfloatsep}{20pt plus 0pt minus 0pt}
+\setlength{\dblfloatsep}{14pt plus 0pt minus 0pt}
+%% maths
+\setlength{\abovedisplayskip}{12pt plus 0pt minus 0pt}
+\setlength{\belowdisplayskip}{12pt plus 0pt minus 0pt}
+%% lists
+\setlength{\topsep}{10pt plus 0pt minus 0pt}
+\setlength{\partopsep}{3pt plus 0pt minus 0pt}
+\setlength{\itemsep}{5pt plus 0pt minus 0pt}
+\setlength{\labelsep}{8mm plus 0mm minus 0mm}
+\setlength{\parsep}{\the\parskip}
+\setlength{\listparindent}{\the\parindent}
+%% verbatim
+\setlength{\fboxsep}{5pt plus 0pt minus 0pt}
+
+
+
+\begin{document}
+
+
+
+\begin{frontmatter}  %
+
+\title{Loans and Credit}
+
+% Set to FALSE if wanting to remove title (for submission)
+
+
+
+
+\author[Add1]{25424971}
+\ead{25424971@sun.ac.za}
+
+
+
+
+
+
+
+
+\vspace{1cm}
+
+
+
+
+
+\vspace{0.5cm}
+
+\end{frontmatter}
+
+\setcounter{footnote}{0}
+
+
+
+%________________________
+% Header and Footers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\chead{}
+\rhead{}
+\lfoot{}
+\rfoot{\footnotesize Page \thepage}
+\lhead{}
+%\rfoot{\footnotesize Page \thepage } % "e.g. Page 2"
+\cfoot{}
+
+%\setlength\headheight{30pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%________________________
+
+\headsep 35pt % So that header does not go over title
+
+
+
+
+\section{Introduction}\label{introduction}
+
+The key drivers of default risk are explored. The following factors of
+individuals are considered: whether the income source was verified, the
+debt-to-income ratio, the number of year that the individual has had any
+sort of credit line, prior bankruptcies, the number of mortgage
+accounts, bankcard utilisation, interest rate, term length, and history
+of credit behaviour.
+
+\subsection{The Key Risk Drivers for
+Default}\label{the-key-risk-drivers-for-default}
+
+A logistic regression is used to study the determinants of default risk,
+as the dependent variable is binary in nature. Across both
+specifications, all the coefficients are statistically significant,
+justifying their statuses as key drivers of default risk. The Lending
+Club's credit grade system proves to be great indicator of debt default,
+with lower grades being associated with an increased probability of
+default. The DTI ratio, prior bankruptcies, and bankcard utilisation are
+also associated with increased default risk. The number of mortgage
+accounts and never having missed payments on debt are associated with
+lower default risk.
+
+\begin{verbatim}
+## 
+## Logistic Regression: Predictors of Loan Default
+## =====================================================
+##                             Dependent variable:      
+##                        ------------------------------
+##                         Default (1 = Loss, 0 = Paid) 
+##                              (1)            (2)      
+## -----------------------------------------------------
+## Source Verified           0.346***        0.188***   
+##                            (0.010)        (0.011)    
+## Verified                  0.555***        0.283***   
+##                            (0.011)        (0.012)    
+## DTI                       0.027***        0.015***   
+##                           (0.0005)        (0.0005)   
+## Credit Age                -0.006***       0.004***   
+##                            (0.001)        (0.001)    
+## Prior Bankruptcies        0.179***        0.079***   
+##                            (0.009)        (0.010)    
+## % Never Delinquent        -0.007***      -0.004***   
+##                           (0.0004)        (0.0005)   
+## Mortgage Accounts         -0.126***      -0.123***   
+##                            (0.003)        (0.003)    
+## Bankcard Utilisation      0.005***        0.002***   
+##                           (0.0001)        (0.0002)   
+## No. Revolving Accounts    0.005***        0.005***   
+##                            (0.001)        (0.001)    
+## Grade B                                   0.655***   
+##                                           (0.020)    
+## Grade C                                   1.044***   
+##                                           (0.026)    
+## Grade D                                   1.290***   
+##                                           (0.037)    
+## Grade E                                   1.413***   
+##                                           (0.048)    
+## Grade F                                   1.590***   
+##                                           (0.060)    
+## Grade G                                   1.678***   
+##                                           (0.078)    
+## Interest Rate                             0.028***   
+##                                           (0.003)    
+## Term                                      0.016***   
+##                                           (0.0004)   
+## Constant                  -1.409***      -3.419***   
+##                            (0.047)        (0.056)    
+## -----------------------------------------------------
+## Observations               372,684        372,684    
+## Log Likelihood          -191,565.700    -180,892.700 
+## Akaike Inf. Crit.        383,151.300    361,821.500  
+## =====================================================
+## Note:                   *p<0.05; **p<0.01; ***p<0.001
+\end{verbatim}
+
+\subsection{Default-Risk Customer
+Profiles}\label{default-risk-customer-profiles}
+
+\subsubsection{Default Rate by Lending Club's Customer Grading
+System}\label{default-rate-by-lending-clubs-customer-grading-system}
+
+The plot below illustrates that default rates increase as credit grades
+worsen. Customers that are assigned poor Lending Club credit grades are
+at higher risk of defaulting on their debt.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question3_files/figure-latex/unnamed-chunk-4-1} 
+
+}
+
+\caption{Default Rate by Grading System .\label{Figure1}}\label{fig:unnamed-chunk-4}
+\end{figure}
+
+\subsubsection{Default Rate by Home
+Ownership}\label{default-rate-by-home-ownership}
+
+Individuals that rent instead of own their house/mortgage have an
+average default rate of 26.9\%. Owning a mortgage is associated with the
+lowest average default rate, supporting the findings of the logit
+regression, where the number of mortgages negatively relates to the
+default rate. This may simply be a proxy for income.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question3_files/figure-latex/unnamed-chunk-5-1} 
+
+}
+
+\caption{Default Rate by Home Ownership.\label{Figure1}}\label{fig:unnamed-chunk-5}
+\end{figure}
+
+\subsubsection{Default Rate by Employment
+Length}\label{default-rate-by-employment-length}
+
+The default rate appers to be similarly distributed across employment
+lengths, with a slight downward trend, such that longer employment years
+(stable income) indicate a slightly lower risk of default.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question3_files/figure-latex/unnamed-chunk-6-1} 
+
+}
+
+\caption{Default Rate by Employment Length.\label{Figure1}}\label{fig:unnamed-chunk-6}
+\end{figure}
+
+\subsubsection{Default Rate by State for Both Long and Short Term
+Loans}\label{default-rate-by-state-for-both-long-and-short-term-loans}
+
+Arkansas, Los Angeles, Mississipi, Nebraska, and Oklahoma have the
+highest average default rates, signalling that individuals from these
+states iintroduce increased risk. Whereas individuals from DC, Maine,
+New Hampshire, Oregan, Vermont, and West Virginia signal prudence, as
+these states have the lowest average default rates.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question3_files/figure-latex/unnamed-chunk-7-1} 
+
+}
+
+\caption{Default Rate by State for Both Long and Short Term Loans.\label{Figure1}}\label{fig:unnamed-chunk-7}
+\end{figure}
+
+\subsubsection{Default Rate by State for Short Term Loans
+Only}\label{default-rate-by-state-for-short-term-loans-only}
+
+The state analysis is similar when only short-term loans are considered.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question3_files/figure-latex/unnamed-chunk-8-1} 
+
+}
+
+\caption{Default Rate by State for Short Term Loans Only.\label{Figure1}}\label{fig:unnamed-chunk-8}
+\end{figure}
+
+\subsubsection{Default Rate by Purpose of
+Loan}\label{default-rate-by-purpose-of-loan}
+
+Individuals who cite funding a small business or planning a wedding as
+the reason for their debt obligations are at the highest risk of
+defaulting on their loans.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question3_files/figure-latex/unnamed-chunk-9-1} 
+
+}
+
+\caption{Default Rate by Purpose.\label{Figure1}}\label{fig:unnamed-chunk-9}
+\end{figure}
+
+\subsection{The Debt-to-Income and Loan Status
+Relationship}\label{the-debt-to-income-and-loan-status-relationship}
+
+The average debt-to-income ratio is the highest for those who have
+defaulted on their loans and completely written their loans off,
+although the variance is not large across these broader loan status
+groups.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question3_files/figure-latex/unnamed-chunk-10-1} 
+
+}
+
+\caption{Average DTI by Loan Status.\label{Figure1}}\label{fig:unnamed-chunk-10}
+\end{figure}
+
+\section{Conclusion}\label{conclusion}
+
+Multiple factors must be considered when approving loan applications to
+ensure that the default rate is minimised. By scrutinizing over where
+individuals reside, the debt-to-income ratios, the purpose of the
+credit, the credit category, home ownership, length of employment, debt
+history, and bankcard utilisation, debt default risk can be improved.
+
+\bibliography{Tex/ref}
+
+
+
+
+
+\end{document}

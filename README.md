@@ -269,7 +269,11 @@ f
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-12-1.png" alt="" style="display: block; margin: auto;" />
 
-# Question 2:
+# Question 2: Baby Names
+
+This report explores the persistence in baby name trends, as well as the
+potential influence of popular culture on these trends using US name
+data from 1910-2014.
 
 ``` r
 # set up
@@ -296,11 +300,6 @@ hbo_titles <- read_rds("25424971Question2/data/US_Baby_names/HBO_titles.rds") %>
 hbo_credits <- read_rds("25424971Question2/data/US_Baby_names/HBO_credits.rds") %>% 
     clean_names
 ```
-
-## Introduction
-
-This report explores the persistence in baby name trends, as well as the
-potential influence of popular culture on these trends.
 
 ### Spearman Rank Correlation
 
@@ -355,7 +354,7 @@ illustrating the influence of popular culture on baby names.
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-16-1.png" alt="" style="display: block; margin: auto;" />
 
-### Name Trends: Jude
+### Name Influences: Jude
 
 Inspired by the Beatles documentary, “Get Back”, I want to look into
 “Jude”. It looks like it gained more popularity in the 2000s. When I
@@ -378,3 +377,208 @@ names must quickly adapt, especially those marketed towards girls. To
 stay on top of the trends, popular media must be studied. Through
 analysing song charts and IMDb ratings, the company can stay inline with
 the curve.
+
+# Question 3: Loans and Credit
+
+The key drivers of default risk are explored. The following factors of
+individuals are considered: whether the income source was verified, the
+debt-to-income ratio, the number of year that the individual has had any
+sort of credit line, prior bankruptcies, the number of mortgage
+accounts, bankcard utilisation, interest rate, term length, and history
+of credit behaviour.
+
+I create a function to clean the data. Irrelevant columns are dropped (I
+could have been more liberal with this), the term variable is mutated
+into a number, and employment length into an ordered factor (later on
+other variables are mutated in plot functions). There are 7 categories
+under the loan status. I am trying to think of how to divide them. I am
+unsure of how to categorise them, so I make a few variables. I create a
+binary variable (concluded_loan), where 1 is loss and default, and 0 is
+fully paid. (I had to do some digging to understand that “default” means
+that there is still hope of some recovery and “charged off” means that a
+loss is official). I believe that default should be included for
+completedness. I make broader variable (loan_outcome) that has 5
+categories (fully paid, charged off, current, partial default, and
+default).
+
+For analysis, I will look at concluded loans only (either fully paid or
+loss/default). I make a function to pull only this data and create an
+object for resolved loans.
+
+## Inspecting the Hypothesised Key Drivers
+
+Summary statistics on the key variables reveal the need for tweaks in
+the data cleaning. The Debt-to-Income ratio has a maximum value of 999,
+which indicates the presence of outliers. It also has a negative minimum
+value, which feels incorrect. Utilisation also has outliers. The
+cleaning function is adapted to filter to trim and correct these and to
+declare verification status variable as a factor and the earliest credit
+line variable is mutated to an age. This yields satisfactory summary
+statistics
+
+    ##       verification_status      dti        credit_age_yrs  pub_rec_bankruptcies
+    ##  Not Verified   :109014   Min.   : 0.00   Min.   :11.00   Min.   :0.0000      
+    ##  Source Verified:156317   1st Qu.:11.97   1st Qu.:21.00   1st Qu.:0.0000      
+    ##  Verified       :107354   Median :17.98   Median :25.00   Median :0.0000      
+    ##                           Mean   :18.55   Mean   :26.32   Mean   :0.1535      
+    ##                           3rd Qu.:24.73   3rd Qu.:30.00   3rd Qu.:0.0000      
+    ##                           Max.   :48.68   Max.   :81.00   Max.   :8.0000      
+    ##                                                                               
+    ##  pct_tl_nvr_dlq      mort_acc         bc_util       num_rev_accts   
+    ##  Min.   :  0.00   Min.   : 0.000   Min.   :  0.00   Min.   :  2.00  
+    ##  1st Qu.: 90.90   1st Qu.: 0.000   1st Qu.: 32.70   1st Qu.:  8.00  
+    ##  Median : 97.60   Median : 1.000   Median : 57.00   Median : 13.00  
+    ##  Mean   : 93.96   Mean   : 1.592   Mean   : 55.47   Mean   : 14.38  
+    ##  3rd Qu.:100.00   3rd Qu.: 3.000   3rd Qu.: 80.70   3rd Qu.: 19.00  
+    ##  Max.   :100.00   Max.   :37.000   Max.   :100.30   Max.   :105.00  
+    ##  NA's   :1
+
+## Logistic Regression Models
+
+Concluded loans is my dependent variable. Since it is binary, I will use
+a logit. The second regression adds the credit grade, interest rate, and
+term length as regressors.
+
+### Results from Logistic Regressions
+
+Across both specifications, all the coefficients are statistically
+significant, justifying their statuses as key drivers of default risk.
+The Lending Club’s credit grade system proves to be great indicator of
+debt default, with lower grades being associated with an increased
+probability of default. The DTI ratio, prior bankruptcies, and bankcard
+utilisation are also associated with increased default risk. The number
+of mortgage accounts and never having missed payments on debt are
+associated with a lower default rate. Although the positive relationship
+between verification status and default risk may seem counterintuitive,
+it indicates selection bias, where a background check is run on
+individuals who are in a worse financial position.
+
+    ## 
+    ## Logistic Regression: Predictors of Loan Default
+    ## =====================================================
+    ##                             Dependent variable:      
+    ##                        ------------------------------
+    ##                         Default (1 = Loss, 0 = Paid) 
+    ##                              (1)            (2)      
+    ## -----------------------------------------------------
+    ## Source Verified           0.346***        0.188***   
+    ##                            (0.010)        (0.011)    
+    ## Verified                  0.555***        0.283***   
+    ##                            (0.011)        (0.012)    
+    ## DTI                       0.027***        0.015***   
+    ##                           (0.0005)        (0.0005)   
+    ## Credit Age                -0.006***       0.004***   
+    ##                            (0.001)        (0.001)    
+    ## Prior Bankruptcies        0.179***        0.079***   
+    ##                            (0.009)        (0.010)    
+    ## % Never Delinquent        -0.007***      -0.004***   
+    ##                           (0.0004)        (0.0005)   
+    ## Mortgage Accounts         -0.126***      -0.123***   
+    ##                            (0.003)        (0.003)    
+    ## Bankcard Utilisation      0.005***        0.002***   
+    ##                           (0.0001)        (0.0002)   
+    ## No. Revolving Accounts    0.005***        0.005***   
+    ##                            (0.001)        (0.001)    
+    ## Grade B                                   0.655***   
+    ##                                           (0.020)    
+    ## Grade C                                   1.044***   
+    ##                                           (0.026)    
+    ## Grade D                                   1.290***   
+    ##                                           (0.037)    
+    ## Grade E                                   1.413***   
+    ##                                           (0.048)    
+    ## Grade F                                   1.590***   
+    ##                                           (0.060)    
+    ## Grade G                                   1.678***   
+    ##                                           (0.078)    
+    ## Interest Rate                             0.028***   
+    ##                                           (0.003)    
+    ## Term                                      0.016***   
+    ##                                           (0.0004)   
+    ## Constant                  -1.409***      -3.419***   
+    ##                            (0.047)        (0.056)    
+    ## -----------------------------------------------------
+    ## Observations               372,684        372,684    
+    ## Log Likelihood          -191,565.700    -180,892.700 
+    ## Akaike Inf. Crit.        383,151.300    361,821.500  
+    ## =====================================================
+    ## Note:                   *p<0.05; **p<0.01; ***p<0.001
+
+## Default-Risk Customer Profiles
+
+This section explores the various characteristics of indivuduals and how
+these may indicate their propensity to default on their debt. I start by
+analysing credit grades, as that was deemed a key risk driver in the
+regressions. If I take the average of the binary dependent by credit
+grade, that will indicate the “default rate” for each grade. Here,
+defaulting is charged off and defaulted loans (1). I am going to create
+a function so that I can view default rates across categorical
+variables. Viewing default rates across states requires its own function
+so that I can make some tweaks in the layout.
+
+### Default Rate by Lending Club’s Grading System
+
+The plot below illustrates that default rates increase as credit grades
+worsen. Customers that are assigned poor Lending Club credit grades are
+at higher risk of defaulting on their debt.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-22-1.png" alt="" style="display: block; margin: auto;" />
+
+### Default Rate by Home Ownership
+
+Individuals that rent instead of own their house/mortgage have an
+average default rate of 26.9%. Owning a mortgage is associated with the
+lowest average default rate, supporting the findings of the logit
+regression, where the number of mortgages negatively relates to the
+default rate. This may simply be a proxy for income.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-23-1.png" alt="" style="display: block; margin: auto;" />
+
+### Default Rate by Employment Length
+
+The default rate appers to be similarly distributed across employment
+lengths, with a slight downward trend, such that longer employment years
+(stable income) indicate a slightly lower risk of default.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-24-1.png" alt="" style="display: block; margin: auto;" />
+
+### Default Rate by State for Both Long and Short Term Loans
+
+Arkansas, Los Angeles, Mississipi, Nebraska, and Oklahoma have the
+highest average default rates, signalling that individuals from these
+states iintroduce increased risk. Whereas individuals from DC, Maine,
+New Hampshire, Oregan, Vermont, and West Virginia signal prudence, as
+these states have the lowest average default rates.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-25-1.png" alt="" style="display: block; margin: auto;" />
+
+### Default Rate by State for Short Term Loans Only
+
+The state analysis is similar when only short-term loans are considered.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-26-1.png" alt="" style="display: block; margin: auto;" />
+
+### Default Rate by Purpose of Loan
+
+Individuals who cite funding a small business or planning a wedding as
+the reason for their debt obligations are at the highest risk of
+defaulting on their loans.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-27-1.png" alt="" style="display: block; margin: auto;" />
+
+## The Debt-to-Income and Loan Status Relationship
+
+The average debt-to-income ratio is the highest for those who have
+defaulted on their loans and completely written their loans off,
+although the variance is not large across these broader loan status
+groups.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-28-1.png" alt="" style="display: block; margin: auto;" />
+
+## Conclusion
+
+Multiple factors must be considered when approving loan applications to
+ensure that the default rate is minimised. By scrutinizing over where
+individuals reside, the debt-to-income ratios, the purpose of the
+credit, the credit category, home ownership, length of employment, debt
+history, and bankcard utilisation, debt default risk can be improved.

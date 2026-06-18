@@ -3,7 +3,7 @@
 # Remove comments and add values where applicable.
 # The descriptions below should be self-explanatory
 
-title: "What makes us happy?"
+title: "Loans and Credit"
 #subtitle: "This will appear as Right Header"
 
 documentclass: "elsarticle"
@@ -25,11 +25,11 @@ Thesis_FP: FALSE
 # --------- Front Page
 # Comment: ----- Follow this pattern for up to 5 authors
 AddTitle: TRUE # Use FALSE when submitting to peer reviewed platform. This will remove author names.
-Author1: "Nico Katzke^[__Contributions:__  \\newline _The authors would like to thank the World Happiness survey for showing us what happiness is._]"  # First Author - note the thanks message displayed as an italic footnote of first page.
-Ref1: "Satrix, Cape Town" # First Author's Affiliation
-Email1: "nfkatzke\\@gmail.com" # First Author's Email address
+Author1: "25424971"  # First Author - note the thanks message displayed as an italic footnote of first page.
+#Ref1: "Satrix, Cape Town" # First Author's Affiliation
+Email1: "25424971\\@sun.ac.za" # First Author's Email address
 
-CorrespAuthor_1: TRUE  # If corresponding author is author 3, e.g., use CorrespAuthor_3: TRUE
+#CorrespAuthor_1: TRUE  # If corresponding author is author 3, e.g., use CorrespAuthor_3: TRUE
 
 # Comment out below to remove both. JEL Codes only given if keywords also given.
 # keywords: "Multivariate GARCH \\sep Kalman Filter \\sep Copula" # Use \\sep to separate
@@ -65,8 +65,8 @@ csl: Tex/harvard-stellenbosch-university.csl # referencing format used.
 #  @Someoneelse2010
 
 # ---------- General:
-RemovePreprintSubmittedTo: TRUE  # Removes the 'preprint submitted to...' at bottom of titlepage
-Journal: "Journal of Finance"   # Journal that the paper will be submitting to, if RemovePreprintSubmittedTo is set to TRUE.
+#RemovePreprintSubmittedTo: TRUE  # Removes the 'preprint submitted to...' at bottom of titlepage
+#Journal: "Journal of Finance"   # Journal that the paper will be submitting to, if RemovePreprintSubmittedTo is set to TRUE.
 toc: FALSE                       # Add a table of contents
 numbersections: TRUE             # Should sections (and thus figures and tables) be numbered?
 fontsize: 11pt                  # Set fontsize
@@ -83,8 +83,8 @@ output:
     template: Tex/TexDefault.txt
     fig_width: 3.5 # Adjust default figure sizes. This can also be done in the chunks of the text.
     fig_height: 3.5
-abstract: |
-  This article aims to discuss what makes us happy. This is a suggested solution to question 3.
+#abstract: |
+  #This article aims to discuss what makes us happy. This is a suggested solution to question 1.
 ---
 
 <!-- First: Set your default preferences for chunk options: -->
@@ -110,35 +110,22 @@ pacman::p_load(purrr, lubridate, tidymodels, ggridges, ggthemes, readxl, tidyver
 
 list.files('code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
 
-
-```
-
-```{r}
 loan_credit <- read_rds("data/Loan_Cred/loan_data.rds")
-```
 
-
-
-
-
-<!-- ############################## -->
-<!-- # Start Writing here: -->
-<!-- ############################## -->
-
-# Introduction \label{Introduction}
-
-New category variables are created and the dataframe is simplified.
-
-```{r}
+# New category variables are created and the dataframe is simplified.
 loan_clean <- get_clean_loans(loan_credit)
 loan_resolved <- make_loan_resolved(loan_clean)
 ```
 
-## Key Risk Drivers for Default
+# Introduction 
+The key drivers of default risk are explored. The following factors of individuals are considered: whether the income source was verified, the debt-to-income ratio, the number of year that the individual has had any sort of credit line, prior bankruptcies, the number of mortgage accounts, bankcard utilisation,  interest rate, term length, and history of credit behaviour.
 
-Inspecting the hypothesised key drivers.
+## The Key Risk Drivers for Default
+A logistic regression is used to study the determinants of default risk, as the dependent variable is binary in nature. 
+Across both specifications, all the coefficients are statistically significant, justifying their statuses as key drivers of default risk. The Lending Club's credit grade system proves to be great indicator of debt default, with lower grades being associated with an increased probability of default. The DTI ratio, prior bankruptcies, and bankcard utilisation are also associated with increased default risk. The number of mortgage accounts and never having missed payments on debt are associated with lower default risk. 
 
-```{r}
+
+```{r, include=FALSE}
 loan_resolved %>% 
     select(verification_status, dti, credit_age_yrs, 
            pub_rec_bankruptcies, pct_tl_nvr_dlq, 
@@ -146,14 +133,14 @@ loan_resolved %>%
     summary()
 ```
 
-```{r}
+```{r, include=FALSE}
 logit_model_1 <- glm(concluded_loan ~ verification_status + dti + credit_age_yrs +
                        pub_rec_bankruptcies + pct_tl_nvr_dlq + 
                        mort_acc + bc_util + num_rev_accts,
                    data   = loan_resolved,
                    family = binomial(link = "logit"))
 
-summary(logit_model)
+summary(logit_model_1)
 
 logit_model_2 <- glm(concluded_loan ~ verification_status + dti + credit_age_yrs +
                          pub_rec_bankruptcies + pct_tl_nvr_dlq + 
@@ -165,8 +152,7 @@ logit_model_2 <- glm(concluded_loan ~ verification_status + dti + credit_age_yrs
 summary(logit_model_2)
 ```
 
-### Results
-Across both specifications, all the coefficients are statistically significant, justifying their statuses as key drivers of default risk. The Lending Club's credit grade system proves to be great indicator of debt default, with lower grades being associated with an increased probability of default. The DTI ratio, prior bankruptcies, and bankcard utilisation are also associated with increased default risk. The number of mortgage accounts and never having missed payments on debt are associated with lower default risk. 
+
 
 ```{r, warning =  FALSE}
 stargazer(logit_model_1, logit_model_2,
@@ -187,13 +173,13 @@ stargazer(logit_model_1, logit_model_2,
           no.space    = TRUE)
 ```
 
-## Customers most likely to default on their debt
+## Default-Risk Customer Profiles
 
-### By grade
+### Default Rate by Lending Club’s Customer Grading System 
 
 The plot below illustrates that default rates increase as credit grades worsen. Customers that are assigned poor Lending Club credit grades are at higher risk of defaulting on their debt.
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Default Rate by Grading System .\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 
 d <- plot_default_by_group(loan_resolved, grade,
@@ -203,11 +189,10 @@ d
 
 ```
 
+### Default Rate by Home Ownership
+Individuals that rent instead of own their house/mortgage have an average default rate of 26.9%. Owning a mortgage is associated with the lowest average default rate, supporting the findings of the logit regression, where the number of mortgages negatively relates to the default rate. This may simply be a proxy for income.
 
-### Home ownership
-
-
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Default Rate by Home Ownership.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 
 d <- plot_default_by_group(loan_resolved, home_ownership,
@@ -218,9 +203,10 @@ d
 
 ```
 
-### Employment length
+### Default Rate by Employment Length
+The default rate appers to be similarly distributed across employment lengths, with a slight downward trend, such that longer employment years (stable income) indicate a slightly lower risk of default. 
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Default Rate by Employment Length.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 
 c <- plot_default_by_group(loan_resolved, emp_length,
@@ -232,9 +218,10 @@ c
 ```
 
 
-### State
+### Default Rate by State for Both Long and Short Term Loans
+Arkansas, Los Angeles, Mississipi, Nebraska, and Oklahoma have the highest average default rates, signalling that individuals from these states iintroduce increased risk. Whereas individuals from DC, Maine, New Hampshire, Oregan, Vermont, and West Virginia signal prudence, as these states have the lowest average default rates.
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Default Rate by State for Both Long and Short Term Loans.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 
 c <-  plot_default_by_state(loan_resolved)
@@ -243,10 +230,22 @@ c
 
 ```
 
+### Default Rate by State for Short Term Loans Only
+The state analysis is similar when only short-term loans are considered.
 
-### Purpose
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Default Rate by State for Short Term Loans Only.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+c <-  ST_plot_default_by_state(loan_resolved)
+                      
+c
+
+```
+
+### Default Rate by Purpose of Loan
+Individuals who cite funding a small business or planning a wedding as the reason for their debt obligations are at the highest risk of defaulting on their loans.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Default Rate by Purpose.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 
 c <- plot_default_by_group(loan_resolved, purpose,
@@ -257,59 +256,19 @@ c
 
 ```
 
+## The Debt-to-Income and Loan Status Relationship
+The average debt-to-income ratio is the highest for those who have defaulted on their loans and completely written their loans off, although the variance is not large across these broader loan status groups.
 
-
-### DTI
-
-#### DTI by outcome
-
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Average DTI by Loan Status.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 
 c <-  plot_dti_by_outcome(loan_clean)
                       
 c
 ```
-#### DTI bins
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
-
-
-c <-  table_dti_hardcap(loan_resolved)
-                      
-c
-```
+# Conclusion
+Multiple factors must be considered when approving loan applications to ensure that the default rate is minimised. By scrutinizing over where individuals reside, the debt-to-income ratios, the purpose of the credit, the credit category, home ownership, length of employment, debt history, and bankcard utilisation, debt default risk can be improved.
 
 
 
-## Heuristics - State in st
-
-
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
-
-
-c <-  ST_plot_default_by_state(loan_resolved)
-                      
-c
-
-```
-
-
-
-<!-- Make title of bibliography here: -->
-<!-- \newpage -->
-
-\newpage
-
-# References {-}
-
-<div id="refs"></div>
-
-
-# Appendix {-}
-
-## Appendix A {-}
-
-Some appendix information here
-
-## Appendix B {-}
 
