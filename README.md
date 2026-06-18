@@ -268,6 +268,9 @@ f
 ```
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-12-1.png" alt="" style="display: block; margin: auto;" />
+\## Conclusion Roast level, cost, reviews, ratings, and country of
+production are all reviewed to determine that Kakalove Cafe is the best
+distributor for Coffee Hub.
 
 # Question 2: Baby Names
 

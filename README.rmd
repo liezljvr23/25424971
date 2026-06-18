@@ -172,6 +172,8 @@ f <- plot_choc_aroma_scatter(data = coffee_indicators)
 f
 
 ```
+## Conclusion
+Roast level, cost,  reviews, ratings, and country of production are all reviewed to determine that Kakalove Cafe is the best distributor for Coffee Hub.
 
 # Question 2: Baby Names
 
