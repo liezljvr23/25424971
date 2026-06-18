@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.18)  18 JUN 2026 18:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.18)  18 JUN 2026 19:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**25424971Question3.tex
-(./25424971Question3.tex
+**25424971Question4.tex
+(./25424971Question4.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-05-26>
 (/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/tex/latex/elsarticle/elsarticle.cls
@@ -76,7 +76,7 @@ File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 \@enLab=\toks19
 \@sep=\skip51
 \@@sep=\skip52
-(./25424971Question3.spl) (/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
+(./25424971Question4.spl) (/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip53
 \bibsep=\skip54
@@ -84,7 +84,7 @@ LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count292
 )
 \splwrite=\write3
-\openout3 = `25424971Question3.spl'.
+\openout3 = `25424971Question4.spl'.
 
 \appnamewidth=\dimen157
 ) (/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
@@ -526,16 +526,7 @@ Package: color 2026-05-17 v1.3f Standard LaTeX Color (DPC)
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
-(/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (./25424971Question3.aux
-
-LaTeX Warning: Label `Figure1' multiply defined.
-
-
-LaTeX Warning: Label `Figure1' multiply defined.
-
-
-LaTeX Warning: Label `Figure1' multiply defined.
-
+(/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (./25424971Question4.aux
 
 LaTeX Warning: Label `Figure1' multiply defined.
 
@@ -546,7 +537,7 @@ LaTeX Warning: Label `Figure1' multiply defined.
 LaTeX Warning: Label `Figure1' multiply defined.
 
 )
-\openout1 = `25424971Question3.aux'.
+\openout1 = `25424971Question4.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 188.
 LaTeX Font Info:    ... okay on input line 188.
@@ -607,9 +598,9 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring ON on input line 188.
-(./25424971Question3.out) (./25424971Question3.out)
+(./25424971Question4.out) (./25424971Question4.out)
 \@outlinefile=\write4
-\openout4 = `25424971Question3.out'.
+\openout4 = `25424971Question4.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
@@ -651,88 +642,55 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10.95> on input line 219.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 219.
+<25424971Question4_files/figure-latex/unnamed-chunk-3-1.png, id=28, 505.89pt x 361.35pt>
+File: 25424971Question4_files/figure-latex/unnamed-chunk-3-1.png Graphic file (type png)
+<use 25424971Question4_files/figure-latex/unnamed-chunk-3-1.png>
+Package pdftex.def Info: 25424971Question4_files/figure-latex/unnamed-chunk-3-1.png  used on input line 262.
+(pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
+
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 262--263
+ [][] 
+ []
+
 [1
 
 
-{/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}] [2]
-<25424971Question3_files/figure-latex/unnamed-chunk-4-1.png, id=66, 505.89pt x 361.35pt>
-File: 25424971Question3_files/figure-latex/unnamed-chunk-4-1.png Graphic file (type png)
-<use 25424971Question3_files/figure-latex/unnamed-chunk-4-1.png>
-Package pdftex.def Info: 25424971Question3_files/figure-latex/unnamed-chunk-4-1.png  used on input line 334.
+{/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}]
+<25424971Question4_files/figure-latex/unnamed-chunk-4-1.png, id=42, 505.89pt x 361.35pt>
+File: 25424971Question4_files/figure-latex/unnamed-chunk-4-1.png Graphic file (type png)
+<use 25424971Question4_files/figure-latex/unnamed-chunk-4-1.png>
+Package pdftex.def Info: 25424971Question4_files/figure-latex/unnamed-chunk-4-1.png  used on input line 280.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 334--335
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 280--281
  [][] 
  []
 
-<25424971Question3_files/figure-latex/unnamed-chunk-5-1.png, id=67, 505.89pt x 361.35pt>
-File: 25424971Question3_files/figure-latex/unnamed-chunk-5-1.png Graphic file (type png)
-<use 25424971Question3_files/figure-latex/unnamed-chunk-5-1.png>
-Package pdftex.def Info: 25424971Question3_files/figure-latex/unnamed-chunk-5-1.png  used on input line 352.
+[2 <./25424971Question4_files/figure-latex/unnamed-chunk-3-1.png>]
+<25424971Question4_files/figure-latex/unnamed-chunk-5-1.png, id=53, 505.89pt x 361.35pt>
+File: 25424971Question4_files/figure-latex/unnamed-chunk-5-1.png Graphic file (type png)
+<use 25424971Question4_files/figure-latex/unnamed-chunk-5-1.png>
+Package pdftex.def Info: 25424971Question4_files/figure-latex/unnamed-chunk-5-1.png  used on input line 298.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 352--353
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 298--299
  [][] 
  []
 
-[3 <./25424971Question3_files/figure-latex/unnamed-chunk-4-1.png>]
-<25424971Question3_files/figure-latex/unnamed-chunk-6-1.png, id=78, 505.89pt x 361.35pt>
-File: 25424971Question3_files/figure-latex/unnamed-chunk-6-1.png Graphic file (type png)
-<use 25424971Question3_files/figure-latex/unnamed-chunk-6-1.png>
-Package pdftex.def Info: 25424971Question3_files/figure-latex/unnamed-chunk-6-1.png  used on input line 368.
+[3 <./25424971Question4_files/figure-latex/unnamed-chunk-4-1.png>]
+<25424971Question4_files/figure-latex/unnamed-chunk-6-1.png, id=64, 505.89pt x 361.35pt>
+File: 25424971Question4_files/figure-latex/unnamed-chunk-6-1.png Graphic file (type png)
+<use 25424971Question4_files/figure-latex/unnamed-chunk-6-1.png>
+Package pdftex.def Info: 25424971Question4_files/figure-latex/unnamed-chunk-6-1.png  used on input line 317.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 368--369
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 317--318
  [][] 
  []
 
-[4 <./25424971Question3_files/figure-latex/unnamed-chunk-5-1.png>]
-<25424971Question3_files/figure-latex/unnamed-chunk-7-1.png, id=89, 505.89pt x 361.35pt>
-File: 25424971Question3_files/figure-latex/unnamed-chunk-7-1.png Graphic file (type png)
-<use 25424971Question3_files/figure-latex/unnamed-chunk-7-1.png>
-Package pdftex.def Info: 25424971Question3_files/figure-latex/unnamed-chunk-7-1.png  used on input line 386.
-(pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
-
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 386--387
- [][] 
- []
-
-[5 <./25424971Question3_files/figure-latex/unnamed-chunk-6-1.png>]
-<25424971Question3_files/figure-latex/unnamed-chunk-8-1.png, id=100, 505.89pt x 361.35pt>
-File: 25424971Question3_files/figure-latex/unnamed-chunk-8-1.png Graphic file (type png)
-<use 25424971Question3_files/figure-latex/unnamed-chunk-8-1.png>
-Package pdftex.def Info: 25424971Question3_files/figure-latex/unnamed-chunk-8-1.png  used on input line 400.
-(pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
-
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 400--401
- [][] 
- []
-
-[6 <./25424971Question3_files/figure-latex/unnamed-chunk-7-1.png>]
-<25424971Question3_files/figure-latex/unnamed-chunk-9-1.png, id=111, 505.89pt x 361.35pt>
-File: 25424971Question3_files/figure-latex/unnamed-chunk-9-1.png Graphic file (type png)
-<use 25424971Question3_files/figure-latex/unnamed-chunk-9-1.png>
-Package pdftex.def Info: 25424971Question3_files/figure-latex/unnamed-chunk-9-1.png  used on input line 416.
-(pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
-
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 416--417
- [][] 
- []
-
-[7 <./25424971Question3_files/figure-latex/unnamed-chunk-8-1.png>]
-<25424971Question3_files/figure-latex/unnamed-chunk-10-1.png, id=123, 505.89pt x 361.35pt>
-File: 25424971Question3_files/figure-latex/unnamed-chunk-10-1.png Graphic file (type png)
-<use 25424971Question3_files/figure-latex/unnamed-chunk-10-1.png>
-Package pdftex.def Info: 25424971Question3_files/figure-latex/unnamed-chunk-10-1.png  used on input line 433.
-(pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
-
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 433--434
- [][] 
- []
-
-[8 <./25424971Question3_files/figure-latex/unnamed-chunk-9-1.png>]
-No file 25424971Question3.bbl.
-[9 <./25424971Question3_files/figure-latex/unnamed-chunk-10-1.png>] (./25424971Question3.aux)
+[4 <./25424971Question4_files/figure-latex/unnamed-chunk-5-1.png>]
+No file 25424971Question4.bbl.
+[5 <./25424971Question4_files/figure-latex/unnamed-chunk-6-1.png>] (./25424971Question4.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-05-26>
@@ -740,22 +698,22 @@ L3 programming layer <2026-05-26>
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `25424971Question3.out' has not changed.
-(rerunfilecheck)             Checksum: C50DF94DD9399C8D90D247B2DBAC5829;2721.
+Package rerunfilecheck Info: File `25424971Question4.out' has not changed.
+(rerunfilecheck)             Checksum: D72C7D2AD74A336AC7FF57BE693C1FD1;1075.
  ) 
 Here is how much of TeX's memory you used:
- 16962 strings out of 469096
- 327819 string characters out of 5455734
- 722313 words of memory out of 5000000
- 45712 multiletter control sequences out of 15000+600000
- 676647 words of font info for 78 fonts, out of 8000000 for 9000
+ 16900 strings out of 469096
+ 325019 string characters out of 5455734
+ 699658 words of memory out of 5000000
+ 45663 multiletter control sequences out of 15000+600000
+ 676328 words of font info for 77 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 74i,11n,79p,554b,1229s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt9.pfb>
-Output written on 25424971Question3.pdf (9 pages, 255609 bytes).
+ 74i,11n,79p,554b,1034s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt9.pfb>
+Output written on 25424971Question4.pdf (5 pages, 362285 bytes).
 PDF statistics:
- 193 PDF objects out of 1000 (max. 8388607)
- 148 compressed objects within 2 object streams
- 28 named destinations out of 1000 (max. 500000)
- 124 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 127 PDF objects out of 1000 (max. 8388607)
+ 94 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
+ 69 words of extra memory for PDF output out of 10000 (max. 10000000)
 

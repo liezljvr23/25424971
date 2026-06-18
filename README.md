@@ -730,3 +730,178 @@ ensure that the default rate is minimised. By scrutinizing over where
 individuals reside, the debt-to-income ratios, the purpose of the
 credit, the credit category, home ownership, length of employment, debt
 history, and bankcard utilisation, debt default risk can be improved.
+
+# Question 4: Netflix
+
+The genre, ratings, country of production, and film length are factors
+that determine which movies should be hosted on an up-and-coming
+streaming site.
+
+``` r
+if(!require ( "pacman" , quietly = TRUE ) ) {
+   install.packages("pacman")
+   library(pacman)
+   }
+
+pacman::p_load(purrr, lubridate, tidymodels, ggridges, ggthemes, readxl, tidyverse, lubridate, zoo, pwt10,janitor, ggsci, haven)
+
+list.files('25424971Question4/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+# data load
+titles <- read_rds("25424971Question4/data/netflix/titles.rds")
+credits <- read_rds("25424971Question4/data/netflix/credits.rds")
+movie_info <- read_csv("25424971Question4/data/netflix/netflix_movies.csv")
+```
+
+    ## Rows: 6131 Columns: 12
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (11): show_id, type, title, director, cast, country, date_added, rating,...
+    ## dbl  (1): release_year
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+## IMDb Scores by Genre
+
+IMDb score density plots reveal that critics ratings are the highest
+amongst documentaries, historical, and war films, motivating the
+prioritisation of these genres for the streaming site. Horror films have
+the flattest distribution, indicating that care should be taken when
+selecting films from these genres.
+
+``` r
+titles %>% count(type)
+```
+
+    ## # A tibble: 2 × 2
+    ##   type      n
+    ##   <chr> <int>
+    ## 1 MOVIE  3759
+    ## 2 SHOW   2047
+
+``` r
+titles %>% 
+  select(genres, production_countries) %>% 
+  head(10)
+```
+
+    ## # A tibble: 10 × 2
+    ##    genres                                  production_countries
+    ##    <chr>                                   <chr>               
+    ##  1 ['documentation']                       ['US']              
+    ##  2 ['crime', 'drama']                      ['US']              
+    ##  3 ['comedy', 'fantasy']                   ['GB']              
+    ##  4 ['comedy']                              ['GB']              
+    ##  5 ['horror']                              ['US']              
+    ##  6 ['comedy', 'european']                  ['GB']              
+    ##  7 ['thriller', 'crime', 'action']         ['US']              
+    ##  8 ['drama', 'music', 'romance', 'family'] ['US']              
+    ##  9 ['romance', 'drama']                    ['US']              
+    ## 10 ['drama', 'crime', 'action']            ['US']
+
+``` r
+titles %>% 
+  summarise(
+    na_score    = sum(is.na(imdb_score)),
+    na_runtime  = sum(is.na(runtime)),
+    na_genres   = sum(is.na(genres)),
+    na_country  = sum(is.na(production_countries)),
+    na_year     = sum(is.na(release_year))
+  )
+```
+
+    ## # A tibble: 1 × 5
+    ##   na_score na_runtime na_genres na_country na_year
+    ##      <int>      <int>     <int>      <int>   <int>
+    ## 1      523          0         0          0       0
+
+``` r
+movies <- clean_movies(titles)
+movies_long <- make_movies_long(movies)
+```
+
+``` r
+w <- plot_genre_ridges(movies_long, 
+                  score_var = imdb_score, 
+                  title     = "IMDb Scores by Genre", 
+                  x_axis    = "IMDb Score")
+w
+```
+
+    ## Picking joint bandwidth of 0.297
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-32-1.png" alt="" style="display: block; margin: auto;" />
+
+## User Scores by Genre
+
+The reality genre of films might have the highest median user rating,
+but the distribution is trimodal, indictaing that films should be
+carefully selected. Further, music, hictoric, and documentary films are
+highly rated amongst users. Since users will be the predominant viewers
+on the streaming site, more credence should be given to their
+preferences
+
+``` r
+w <- plot_genre_ridges(movies_long, 
+                  score_var = tmdb_score, 
+                  title     = "User Scores by Genre", 
+                  x_axis    = "TMDB Score")
+w
+```
+
+    ## Picking joint bandwidth of 0.269
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-33-1.png" alt="" style="display: block; margin: auto;" />
+
+## Popularity, Ratings, and Runtime
+
+A negative relationship exists between IMDb ratings and popularity
+scores. This illustrates how controversy drums attention - which should
+be kept in mind when curating a film catalog. Runtime is illustrated by
+the size of the bubbles. War films have a long duration and high
+popularity scoresa and ratings - the ideal genre.
+
+``` r
+m <- plot_score_scatter(movies,
+                   x_var     = imdb_score,
+                   y_var     = tmdb_popularity,
+                   size_var  = runtime,
+                   label_var = primary_genre,
+                   title     = "IMDb Score vs TMDB Popularity by Genre",
+                   x_axis    = "Avg IMDb Score",
+                   y_axis    = "Avg TMDB Popularity")
+m
+```
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-34-1.png" alt="" style="display: block; margin: auto;" />
+
+## Tile Plot of Average Rating by Country and Genre
+
+Films primarily produced in the Phillipines in the crime, drama, science
+fiction and European genres have the highest average ratings. These
+films should be prioritised. Romance films produced in Turkey also
+receive high praise. Films produced in Nigeria should be avoided and
+Mexican films should be carefully selected to fall within the comedy and
+crime genres.
+
+``` r
+m <- plot_country_genre_heatmap(movies_long)
+```
+
+    ## Scale for fill is already present.
+    ## Adding another scale for fill, which will replace the existing scale.
+
+``` r
+m
+```
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-35-1.png" alt="" style="display: block; margin: auto;" />
+
+# Conclusion
+
+Across the board, war fims and documentaries should be prioritised,
+while popular - potentially controversial - films should be promoted to
+stimulate interest in the streaming site. The country of production
+should be considered when curating the films, as this potentially serves
+as a proxy for quality and impacts ratings.
