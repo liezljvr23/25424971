@@ -439,6 +439,8 @@ Multiple factors must be considered when approving loan applications to ensure t
 
 # Question 4: Netflix
 The genre, ratings, country of production, and film length are factors that determine which movies should be hosted on an up-and-coming streaming site.
+
+I'm starting by just creating a movie dataset from Imdb and mutating its genre and production country variables to be useful. I simply use the first-listed country as the primary production country. I need to do something about the genres column with multiple genres. I'll have one dataset where just the primary genre (first listed) is included and then I'll make one separating each genre and pivoting longer.
 ```{r }
 
 if(!require ( "pacman" , quietly = TRUE ) ) {
@@ -458,6 +460,8 @@ movie_info <- read_csv("25424971Question4/data/netflix/netflix_movies.csv")
 ```
 
 ## IMDb Scores by Genre
+For the density ridges by genre, the colour palette has to be extended. I can adapt the function so that I can also look at the user scores (tmdb) per genre. There is a blank genre, so I'm editing the make_movies_longer function to filter out blank observations.
+
 IMDb score density plots reveal that critics ratings are the highest amongst documentaries, historical, and war films, motivating the prioritisation of these genres for the streaming site. Horror films have the flattest distribution, indicating that care should be taken when selecting films from these genres.
 
 ```{r}
@@ -516,6 +520,8 @@ m
 ```
 
 ## Tile Plot of Average Rating by Country and Genre
+There are too many countries, so I use the 15 countries that produce the most movies.
+
 Films primarily produced in the Phillipines in the crime, drama, science fiction and European genres have the highest average ratings. These films should be prioritised. Romance films produced in Turkey also receive high praise. Films produced in Nigeria should be avoided and Mexican films should be carefully selected to fall within the comedy and crime genres.
 
 ```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}

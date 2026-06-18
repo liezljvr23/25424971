@@ -737,6 +737,13 @@ The genre, ratings, country of production, and film length are factors
 that determine which movies should be hosted on an up-and-coming
 streaming site.
 
+I’m starting by just creating a movie dataset from Imdb and mutating its
+genre and production country variables to be useful. I simply use the
+first-listed country as the primary production country. I need to do
+something about the genres column with multiple genres. I’ll have one
+dataset where just the primary genre (first listed) is included and then
+I’ll make one separating each genre and pivoting longer.
+
 ``` r
 if(!require ( "pacman" , quietly = TRUE ) ) {
    install.packages("pacman")
@@ -763,6 +770,11 @@ movie_info <- read_csv("25424971Question4/data/netflix/netflix_movies.csv")
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ## IMDb Scores by Genre
+
+For the density ridges by genre, the colour palette has to be extended.
+I can adapt the function so that I can also look at the user scores
+(tmdb) per genre. There is a blank genre, so I’m editing the
+make_movies_longer function to filter out blank observations.
 
 IMDb score density plots reveal that critics ratings are the highest
 amongst documentaries, historical, and war films, motivating the
@@ -877,6 +889,9 @@ m
 <img src="README_files/figure-markdown_github/unnamed-chunk-34-1.png" alt="" style="display: block; margin: auto;" />
 
 ## Tile Plot of Average Rating by Country and Genre
+
+There are too many countries, so I use the 15 countries that produce the
+most movies.
 
 Films primarily produced in the Phillipines in the crime, drama, science
 fiction and European genres have the highest average ratings. These
