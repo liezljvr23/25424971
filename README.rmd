@@ -267,7 +267,6 @@ I create a function to clean the data. Irrelevant columns are dropped (I could h
 For analysis, I will look at concluded loans only (either fully paid or  loss/default). I make a function to pull only this data and create an object for resolved loans.
 
 ```{r}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
 
 if(!require ( "pacman" , quietly = TRUE ) ) {
    install.packages("pacman")
