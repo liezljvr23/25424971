@@ -3,7 +3,7 @@
 # Remove comments and add values where applicable.
 # The descriptions below should be self-explanatory
 
-title: "What makes us happy?"
+title: "The Persistence of and Influences on Baby Names"
 #subtitle: "This will appear as Right Header"
 
 documentclass: "elsarticle"
@@ -25,11 +25,11 @@ Thesis_FP: FALSE
 # --------- Front Page
 # Comment: ----- Follow this pattern for up to 5 authors
 AddTitle: TRUE # Use FALSE when submitting to peer reviewed platform. This will remove author names.
-Author1: "Nico Katzke^[__Contributions:__  \\newline _The authors would like to thank the World Happiness survey for showing us what happiness is._]"  # First Author - note the thanks message displayed as an italic footnote of first page.
-Ref1: "Satrix, Cape Town" # First Author's Affiliation
-Email1: "nfkatzke\\@gmail.com" # First Author's Email address
+Author1: "25424971"  # First Author - note the thanks message displayed as an italic footnote of first page.
+#Ref1: "Satrix, Cape Town" # First Author's Affiliation
+Email1: "25424971\\@sun.ac.za" # First Author's Email address
 
-CorrespAuthor_1: TRUE  # If corresponding author is author 3, e.g., use CorrespAuthor_3: TRUE
+#CorrespAuthor_1: TRUE  # If corresponding author is author 3, e.g., use CorrespAuthor_3: TRUE
 
 # Comment out below to remove both. JEL Codes only given if keywords also given.
 # keywords: "Multivariate GARCH \\sep Kalman Filter \\sep Copula" # Use \\sep to separate
@@ -65,8 +65,8 @@ csl: Tex/harvard-stellenbosch-university.csl # referencing format used.
 #  @Someoneelse2010
 
 # ---------- General:
-RemovePreprintSubmittedTo: TRUE  # Removes the 'preprint submitted to...' at bottom of titlepage
-Journal: "Journal of Finance"   # Journal that the paper will be submitting to, if RemovePreprintSubmittedTo is set to TRUE.
+#RemovePreprintSubmittedTo: TRUE  # Removes the 'preprint submitted to...' at bottom of titlepage
+#Journal: "Journal of Finance"   # Journal that the paper will be submitting to, if RemovePreprintSubmittedTo is set to TRUE.
 toc: FALSE                       # Add a table of contents
 numbersections: TRUE             # Should sections (and thus figures and tables) be numbered?
 fontsize: 11pt                  # Set fontsize
@@ -83,13 +83,10 @@ output:
     template: Tex/TexDefault.txt
     fig_width: 3.5 # Adjust default figure sizes. This can also be done in the chunks of the text.
     fig_height: 3.5
-abstract: |
-  This article aims to discuss what makes us happy. This is a suggested solution to question 2.
+#abstract: |
+  #This article aims to discuss what makes us happy. This is a suggested solution to question 1.
 ---
 
-<!-- First: Set your default preferences for chunk options: -->
-
-<!-- If you want a chunk's code to be printed, set echo = TRUE. message = FALSE stops R printing ugly package loading details in your final paper too. I also suggest setting warning = FALSE and checking for warnings in R, else you might find ugly warnings in your paper. -->
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
 
@@ -101,13 +98,7 @@ if(!require ( "pacman" , quietly = TRUE ) ) {
 pacman::p_load(purrr, lubridate, tidymodels, ggridges, ggthemes, readxl, tidyverse, lubridate, zoo, pwt10,janitor, ggsci, haven)
 
 list.files('code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
-
-
-```
-
-load data:
-
-```{r}
+# load data
 baby_names <- read_rds("data/US_Baby_names/Baby_Names_By_US_State.rds") %>% 
     clean_names
 top_100 <- read_rds("data/US_Baby_names/charts.rds") %>% 
@@ -116,71 +107,51 @@ hbo_titles <- read_rds("data/US_Baby_names/HBO_titles.rds") %>%
     clean_names
 hbo_credits <- read_rds("data/US_Baby_names/HBO_credits.rds") %>% 
     clean_names
-
-```
-
-
-
-<!-- ############################## -->
-<!-- # Start Writing here: -->
-<!-- ############################## -->
-
-# Introduction \label{Introduction}
-
-
-#### Plot 1: Spearman rank correlation
-The time-series representations below depict the rank correlations of baby names in the US from 1910-2014. It seems that boy names are more persistent than girls names. It does appear that after the 1990's, names become less persistent, with the correlations becoming smaller. The persistence in name trends has fallen for both girl and boy names over time, however, trends seem to persistent longer still for boy names.
-
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 national_ranked <- get_national_ranked(baby_names)
 top_25_names           <- get_top_25_names(national_ranked)
 spearman_results <- get_spearman_results(top_25_names, national_ranked)
+
+```
+
+# Introduction
+This report explores the persistence in baby name trends, as well as the potential influence of popular culture on these trends. This informs the factors that should be considered when aming characters of children's toys
+
+## Spearman Rank Correlation
+The time-series representations below depict the rank correlations of baby names in the US from 1910-2014. It seems that boy names are more persistent than girls names. It does appear that after the 1990's, names become less persistent, with the correlations becoming smaller. The persistence in name trends has fallen for both girl and boy names over time, however, trends seem to persistent longer still for boy names.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Spearman Rank Correlation.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
 g <- plot_spearman_trends(spearman_results)
 g
 ```
 
 
-#### Plot 2: Surges in Names
+## Surges in Names
 Only 24% of the names have experienced a year-on-year surge greater than 5000% between 1910-2014 are boy names. The plot below inspects the popularity of the name "Mallory" over time. "Mallory" spiked in 1983 following the 1982 premiere of "Family Ties" that included the character, Mallory Keaton. It's popularity dulled over the years, illustrating the influence of popular culture on baby names.
 
-```{r}
+```{r, include=FALSE}
 name_surges <- get_surges(national_ranked)
 
 ```
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}}
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Mallory Popularity Over Time.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 b <- plot_name_trend(national_ranked, "Mallory")
 b
 
 ```
 
-#### Plot 3: Jude
+## Name Trends: Jude
 According to the Billbord Hot 100, The Beatles's hit song, "Hey Jude", was charting for 19 weeks between 1968 and 1969. Further, the credits for popular films reveal that Jude Law stardom may also drive interest in this gender neutral name. These two case studies depict the impact of the media in naming conventions
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Happiness Ladder.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}}
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Jude Popularity Over Time.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 b <- plot_name_jude(national_ranked, "Jude")
 b
 
 ```
 
-
-```
-<!-- Make title of bibliography here: -->
-<!-- \newpage -->
-
-\newpage
-
-# References {-}
-
-<div id="refs"></div>
+# Conclusion
+Baby name trends are increasingly less persistent. This means that toy names must quickly adapt, especially those marketed towards girls. To stay on top of the trends, popular media must be studied. Through analysing song charts and IMDb ratings, the company can stay inline with the curve.  
 
 
-# Appendix {-}
-
-## Appendix A {-}
-
-Some appendix information here
-
-## Appendix B {-}
 

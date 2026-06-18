@@ -292,3 +292,122 @@ f
 <p class="caption">
 Ultimate Price and Ratings.
 </p>
+
+# Question 2:
+
+``` r
+# set up
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
+
+if(!require ( "pacman" , quietly = TRUE ) ) {
+   install.packages("pacman")
+   library(pacman)
+   }
+
+pacman::p_load(purrr, lubridate, tidymodels, ggridges, ggthemes, readxl, tidyverse, lubridate, zoo, pwt10,janitor, ggsci, haven)
+
+list.files('25424971Question2/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+
+
+# load data
+baby_names <- read_rds("25424971Question2/data/US_Baby_names/Baby_Names_By_US_State.rds") %>% 
+    clean_names
+top_100 <- read_rds("25424971Question2/data/US_Baby_names/charts.rds") %>% 
+    clean_names
+hbo_titles <- read_rds("25424971Question2/data/US_Baby_names/HBO_titles.rds") %>% 
+    clean_names
+hbo_credits <- read_rds("25424971Question2/data/US_Baby_names/HBO_credits.rds") %>% 
+    clean_names
+```
+
+## Introduction
+
+This report explores the persistence in baby name trends, as well as the
+potential influence of popular culture on these trends.
+
+### Spearman Rank Correlation
+
+I like the idea of state-level data (especially New York), but for this
+process, I will aggregate to a national level through the national
+ranked function. I will get the top 25 most popular for girls and boys.
+I will look at t, t+1, t+2, and t+3.
+
+After I aggregate, I use the rank function, but this has assigned the
+largest rank to the most popular name (need the opposite). To get to the
+top 25, I just filter rank to be smaller or equal to 25 (shamefully,
+took me a while to figure out).
+
+To compute the Spearman correlation, I define base year and future year
+objects in the function and then combine them to calculate the
+correlation between the rankings of these years using the Spearman
+method. The spearman results function expands over all the years (until
+2011, as 3 future periods from then is 2014) and 1 to 3 lags are chosen,
+as specified in the instructions. The variable correlation is now all
+the spearman correlations across the years, genders, and lag lengths.
+For the plot, new variables are created that are used as labels. Have to
+make the lag variable a factor in order to apply my favourite palette. I
+use the facet wrap so that I can view what is happening to girls’ and
+boys’ names separately.
+
+The time-series representations below depict the rank correlations of
+baby names in the US from 1910-2014. It seems that boy names are more
+persistent than girls names. It does appear that after the 1990’s, names
+become less persistent, with the correlations becoming smaller. The
+persistence in name trends has fallen for both girl and boy names over
+time, however, trends seem to persistent longer still for boy names.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-14-1.png" alt="Spearman Rank Correlation.\label{Figure1}"  />
+<p class="caption">
+Spearman Rank Correlation.
+</p>
+
+### Surges in Names
+
+I want to make a function that spits out the names that have surged in
+popularity over the course of a year. I create the variables to
+calculate the year-on-year change in the number of children with each
+name. I need to determine what percentage would classify as a surge.
+After toggling it, I have chosen a threshold of 5000% for reporting. I
+choose to look into “Mallory”. The function to create the graph is
+simple, but I want to spruce it up a bit. I add a line to show when
+“Family Ties” premiered.
+
+Only 24% of the names have experienced a year-on-year surge greater than
+5000% between 1910-2014 are boy names. The plot below inspects the
+popularity of the name “Mallory” over time. “Mallory” spiked in 1983
+following the 1982 premiere of “Family Ties” that included the
+character, Mallory Keaton. It’s popularity dulled over the years,
+illustrating the influence of popular culture on baby names.
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-16-1.png" alt="Mallory Popularity Over Time.\label{Figure1}"  />
+<p class="caption">
+Mallory Popularity Over Time.
+</p>
+
+### Name Trends: Jude
+
+Inspired by the Beatles documentary, “Get Back”, I want to look into
+“Jude”. It looks like it gained more popularity in the 2000s. When I
+think of the name, I think of Jude Law. I’ll see if he is credited and
+when his breakout roles were (The Talented Mr Ripley was released in
+1999).
+
+According to the Billbord Hot 100, The Beatles’s hit song, “Hey Jude”,
+was charting for 19 weeks between 1968 and 1969. Further, the credits
+for popular films reveal that Jude Law stardom may also drive interest
+in this gender neutral name. These two case studies depict the impact of
+the media in naming conventions
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-17-1.png" alt="Jude Popularity Over Time.\label{Figure1}"  />
+<p class="caption">
+Jude Popularity Over Time.
+</p>
+
+## Conclusion
+
+Baby name trends are increasingly less persistent. This means that toy
+names must quickly adapt, especially those marketed towards girls. To
+stay on top of the trends, popular media must be studied. Through
+analysing song charts and IMDb ratings, the company can stay inline with
+the curve.
