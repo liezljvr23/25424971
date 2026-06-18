@@ -6,16 +6,13 @@ output:
 
 # Purpose
 
-Purpose of this work folder.
-
-Ideally store a minimum working example data set in data folder.
-
-Add binary files in bin, and closed R functions in code. Human Readable settings files (e.g. csv) should be placed in settings/
+The walk-through of how each questioned is tackled is presented below.
 
 
-### Folder set-up
+# Folder set-up
+The code below creates the folder structure that guides the workflow of the practical.
 
-```{r}
+```{r, eval = F}
 CHOSEN_LOCATION <- "/Users/liezljansenvanrensburg/Desktop/data science/25424971"
 fmxdat::make_project(Mac = TRUE, Open = FALSE)
 
@@ -25,13 +22,155 @@ Texevier::create_template(directory = glue::glue("{CHOSEN_LOCATION}/"), template
 Texevier::create_template(directory = glue::glue("{CHOSEN_LOCATION}/"), template_name = "25424971Question4")
 ```
 
+# Question 1: Coffee
+This sections explores the potential coffee distributors for a coffee shop in Stellenbosch. The cost (in USD), the roaster company, the roast strength, ratings, and reviews of the coffees are considered. Ulitimately, A supplier, Kakalove Cafe, is recommended
+
+The code below loads the packages and the data. "United States and Floyd" will now fall under United States.
 
 ```{r}
 
-rm(list = ls()) # Clean your environment:
-gc() # garbage collection - It can be useful to call gc after a large object has been removed, as this may prompt R to return memory to the operating system.
-library(tidyverse)
-list.files('code/', full.names = T, recursive = T) %>% .[grepl('.R', .)] %>% as.list() %>% walk(~source(.))
+if(!require ( "pacman" , quietly = TRUE ) ) {
+   install.packages("pacman")
+   library(pacman)
+   }
+
+pacman::p_load(purrr, lubridate, tidymodels, ggridges, ggthemes, readxl, tidyverse, lubridate, zoo, pwt10,janitor, ggsci)
+
+list.files('25424971Question1/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+coffee_data <- read.csv("25424971Question1/data/Coffee/Coffee.csv") %>% 
+    clean_names() %>%
+    mutate(
+    loc_country = case_when(
+      str_detect(loc_country, regex("united states", ignore_case = TRUE)) ~ "United States",
+      TRUE ~ loc_country
+    )
+  ) %>%
+  mutate(roast = na_if(roast, "")) %>%
+  drop_na(roast)
+
+```
+
+## Average Rating and Price
+### Average Rating and Price by Roaster Location
+The plot below indicates that Australia and England are clear outliers. Although roasters in these countries have, on average, the highest ratings, all the countries receive an average rating of 90 or above. I would suggest that the prices disqualify the further consideration of Australian and English roasters.
+
+```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Average Rating and Price by Roaster Country.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+g <-
+    plot_rating_vs_price(data = coffee_data, group_var = loc_country, title = "Average Rating and Price by Roaster Country")
+    
+g
+
+```
+
+### Average Rating and Price by Roaster Location, excluding Outliers
+Ratings cluster between 92 and 94, however, outliers in price remain.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Rating and Price by Location of Roaster without Outliers.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7 }
+
+coffee_filtered <- coffee_data %>% 
+    filter(!loc_country %in% c("Australia", "England"))
+g <- plot_rating_vs_price(data = coffee_filtered, group_var = loc_country, title = "Average Rating and Price by Location of Roaster without Outliers")
+    
+g
+```
+
+### Average Rating and Price by Roast Level 
+I now want to look at the relationship between roast, cost, and rating. I see that some (15) observations dont have a roast category, so Ill go back and remove blanks from the original dataframe (coffee_data). Cost and Rating have no blanks or missing values.
+
+I see that I can just go back and adapt my function so that I can specify how I should group and then I can use the function to visualise the relationship between roast, price, and country. I actually am understanding the use of functions now!
+
+Light roast has the highest average rating, but also the highest average cost. Dark has the lowest average rating and the lowest cost. Medium-light and medium roast offer a middle-ground.
+
+```{r}
+coffee_filtered %>% distinct(roast)
+
+coffee_data %>%
+  summarise(
+    across(c(roast, cost_per_100g, rating), 
+           list(n_na = ~sum(is.na(.)),
+                n_blank = ~sum(. == "", na.rm = TRUE)))
+  )
+
+```
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Rating and Price by Roast Level.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+k <-
+    plot_rating_vs_price(data = coffee_filtered, group_var = roast, title = "Average Rating and Price by Roast Level")
+    
+k
+```
+
+## Indicator words
+I now want to do something with the indicator words. I like sweet, chocolate, and aroma (most used and not filler - like cup). I'll use pivot longer to create a "review" column that holds all three description columns. From there I want to see which observations have one or more of the chosen indicator words. I specify chocolate as "chocolat" so that different forms of the word is included. 
+
+I first just filtered to the reviews that include the indicator words, but I want to add a column to show which words are included so that I can do some analysis on that potentially. This took some time to figure out what looks right, but now I am happy with the wrangling function. Now I have a matched_words column that shows which indicator words are included in the review and only the observations that have any of these words are kept.
+
+Wrangle the data using a function:
+
+```{r}
+coffee_indicators <- extract_indicator_words(data = coffee_filtered)
+
+head(coffee_indicators, 10)
+
+# wow, that actually worked
+```
+
+### Average Rating and Price by Review Indicator Words
+This plot indicates that coffee brands that have reviews describing the aroma and chocolatiness of the coffee are the best deal when it comes to the ratings-price relationship. Subsequent analysis will be focused on these observations.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Rating and Price by Review Indicator Words.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+g <-
+    plot_rating_vs_price(data = coffee_indicators, group_var = matched_words, title = "Average Rating and Price by Review Indicator Words")
+    
+g
+
+```
+
+### Boxplot by Country and Roast Level
+The goal is to trim the most expensive coffee products (this is informed by the subsequent analysis). Boxplot shows the outliers in red. The boxplot also illustrates that Taiwan and the US are the have the most roasters.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Boxplot.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+d <- plot_cost_boxplot(data = coffee_indicators)
+d
+
+```
+
+### Price Distribution
+The distribution in price aids in determining where a hard cap on the price should be. At USD8 per 100 grams, there is a fall in the number of coffee products sold at this price, and provides a reasonable cap.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Price Distribution.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7,}
+
+d <- plot_cost_distribution(data = coffee_indicators, cutoff = 8)
+d
+```
+
+### Tile Plot
+I have 4 variables that I now want to visualise 4 variables: roaster, roast, cost, and rating.The tile graph will have rating, roaster, and roast. I start with a new function that filters to the observations that have aroma and chocolate indicator words in their reviews. This then gets passed to a ggplot to make a tile graph. I need to calculate a midpoint for the graph, so I do that before the tile plot code. I see that I have to pull the midpoint otherwise it is a dataframe and there are issues later on. I then just do the tile plot code like I practised. I'm sure I can improve the functionality to make it more generic, but this will do for now.
+
+There are still way too many roasters. I should go back and use price distributions to decide on a cutoff price. 
+
+I have decided on USD8 as the cutoff price and now I can use the tile graph. It is still very cramped, so I'm going to adjust the text settings and see if that looks good. There are still too many roasters. I am only going to look at roasters that have more than one roast level, so that the supplier offers a diversified range of coffee. I will just group and ungroup to filter this in the function code.
+
+This plot depicts the average ratings by roaster and roast level once the coffee products that have a cost larger than USD8 and roasters that only supply one remaining product have been filtered out. The reasoning is that a distributor can provide a diversified selection of products.
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Tile Plot.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+f <- plot_choc_aroma_tile(data = coffee_indicators)
+f
+
+```
+
+
+### Prices and Ratings for Roasters
+The plot below displays the price-ratings relationship for narrowd-down roasters. Kakalove Cafe seems to be a promising supplier, with most of its product prices falling the lowest, and receiving the highest some of the highest ratings. They also produce a variety of products. 
+
+```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Ultimate Price and Ratings.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+f <- plot_choc_aroma_scatter(data = coffee_indicators)
+f
+
 ```
 
 

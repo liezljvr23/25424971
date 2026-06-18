@@ -51,7 +51,4 @@ plot_choc_aroma_tile <- function(data){
 }
 
 
-coffee_filtered %>%
-    pull(cost_per_100g) %>%
-    max()
 

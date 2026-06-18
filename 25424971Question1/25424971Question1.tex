@@ -1,0 +1,395 @@
+\documentclass[11pt,preprint]{elsarticle}
+
+\usepackage{lmodern}
+%%%% My spacing
+\usepackage{setspace}
+\setstretch{1.2}
+\DeclareMathSizes{12}{14}{10}{10}
+
+% Wrap around which gives all figures included the [H] command, or places it "here". This can be tedious to code in Rmarkdown.
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+
+\let\origtable\table
+\let\endorigtable\endtable
+\renewenvironment{table}[1][2] {
+    \expandafter\origtable\expandafter[H]
+} {
+    \endorigtable
+}
+
+
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts}
+
+\def\bibsection{\section*{References}} %%% Make "References" appear before bibliography
+
+
+\usepackage[numbers]{natbib}
+
+\usepackage{longtable}
+\usepackage[margin=2.3cm,bottom=2cm,top=2.5cm, includefoot]{geometry}
+\usepackage{fancyhdr}
+\usepackage[bottom, hang, flushmargin]{footmisc}
+\usepackage{graphicx}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1.3ex plus 0.5ex minus 0.3ex}
+\usepackage{textcomp}
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+\usepackage{array}
+\newcolumntype{x}[1]{>{\centering\arraybackslash\hspace{0pt}}p{#1}}
+
+%%%%  Remove the "preprint submitted to" part. Don't worry about this either, it just looks better without it:
+
+ \def\tightlist{} % This allows for subbullets!
+
+\usepackage{hyperref}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=blue,
+            pdfborder={0 0 0}}
+
+
+% The following packages allow huxtable to work:
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{calc}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{caption}
+
+
+\newenvironment{columns}[1][]{}{}
+
+\newenvironment{column}[1]{\begin{minipage}{#1}\ignorespaces}{%
+\end{minipage}
+\ifhmode\unskip\fi
+\aftergroup\useignorespacesandallpars}
+
+\def\useignorespacesandallpars#1\ignorespaces\fi{%
+#1\fi\ignorespacesandallpars}
+
+\makeatletter
+\def\ignorespacesandallpars{%
+  \@ifnextchar\par
+    {\expandafter\ignorespacesandallpars\@gobble}%
+    {}%
+}
+\makeatother
+
+
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+\href{\#cite.\detokenize{#1}}{#2}\nocite{#1}}
+
+\makeatletter
+% allow citations to break across lines
+\let\@cite@ofmt\@firstofone
+% avoid brackets around text for \cite:
+\def\@biblabel#1{}
+\def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+{\begin{list}{}{%
+	\setlength{\itemindent}{0pt}
+	\setlength{\leftmargin}{0pt}
+	\setlength{\parsep}{0pt}
+	% turn on hanging indent if param 1 is 1
+	\ifodd #1
+	\setlength{\leftmargin}{\cslhangindent}
+	\setlength{\itemindent}{-1\cslhangindent}
+	\fi
+	% set entry spacing
+	\setlength{\itemsep}{#2\baselineskip}}}
+{\end{list}}
+
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+%%% Include extra packages specified by user
+
+%%% Hard setting column skips for reports - this ensures greater consistency and control over the length settings in the document.
+%% page layout
+%% paragraphs
+\setlength{\baselineskip}{12pt plus 0pt minus 0pt}
+\setlength{\parskip}{12pt plus 0pt minus 0pt}
+\setlength{\parindent}{0pt plus 0pt minus 0pt}
+%% floats
+\setlength{\floatsep}{12pt plus 0 pt minus 0pt}
+\setlength{\textfloatsep}{20pt plus 0pt minus 0pt}
+\setlength{\intextsep}{14pt plus 0pt minus 0pt}
+\setlength{\dbltextfloatsep}{20pt plus 0pt minus 0pt}
+\setlength{\dblfloatsep}{14pt plus 0pt minus 0pt}
+%% maths
+\setlength{\abovedisplayskip}{12pt plus 0pt minus 0pt}
+\setlength{\belowdisplayskip}{12pt plus 0pt minus 0pt}
+%% lists
+\setlength{\topsep}{10pt plus 0pt minus 0pt}
+\setlength{\partopsep}{3pt plus 0pt minus 0pt}
+\setlength{\itemsep}{5pt plus 0pt minus 0pt}
+\setlength{\labelsep}{8mm plus 0mm minus 0mm}
+\setlength{\parsep}{\the\parskip}
+\setlength{\listparindent}{\the\parindent}
+%% verbatim
+\setlength{\fboxsep}{5pt plus 0pt minus 0pt}
+
+
+
+\begin{document}
+
+
+
+\begin{frontmatter}  %
+
+\title{Coffe Hub}
+
+% Set to FALSE if wanting to remove title (for submission)
+
+
+
+
+\author[Add1]{25424971}
+\ead{25424971@sun.ac.za}
+
+
+
+
+
+
+
+
+\vspace{1cm}
+
+
+
+
+
+\vspace{0.5cm}
+
+\end{frontmatter}
+
+\setcounter{footnote}{0}
+
+
+
+%________________________
+% Header and Footers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\chead{}
+\rhead{}
+\lfoot{}
+\rfoot{\footnotesize Page \thepage}
+\lhead{}
+%\rfoot{\footnotesize Page \thepage } % "e.g. Page 2"
+\cfoot{}
+
+%\setlength\headheight{30pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%________________________
+
+\headsep 35pt % So that header does not go over title
+
+
+
+
+\section{Introduction}\label{introduction}
+
+This sections explores the potential coffee distributors for a coffee
+shop in Stellenbosch. The cost (in USD), the roaster company, the roast
+strength, and reviews of the coffees are considered.
+
+I view the data:
+
+\section{Average Rating and Price}\label{average-rating-and-price}
+
+\subsection{Average Rating and Price by Roaster
+Location}\label{average-rating-and-price-by-roaster-location}
+
+The plot below indicates that Australia and England are clear outliers.
+Although roasters in these countries have, on average, the highest
+ratings, all the countries receive an average rating of 90 or above. I
+would suggest that the prices disqualify the further consideration of
+Australian and English roasters.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question1_files/figure-latex/unnamed-chunk-2-1} 
+
+}
+
+\caption{Average Rating and Price by Roaster Country.\label{Figure1}}\label{fig:unnamed-chunk-2}
+\end{figure}
+
+\subsection{Average Rating and Price by Roaster Location, excluding
+Outliers}\label{average-rating-and-price-by-roaster-location-excluding-outliers}
+
+Ratings cluster between 92 and 94, however, outliers in price remain.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question1_files/figure-latex/unnamed-chunk-3-1} 
+
+}
+
+\caption{Average Rating and Price by Location of Roaster without Outliers.\label{Figure1}}\label{fig:unnamed-chunk-3}
+\end{figure}
+
+\subsection{Average Rating and Price by Roast
+Level}\label{average-rating-and-price-by-roast-level}
+
+Light roast has the highest average rating, but also the highest average
+cost. Dark has the lowest average rating and the lowest cost.
+Medium-light and medium roast offer a middle-ground.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question1_files/figure-latex/unnamed-chunk-5-1} 
+
+}
+
+\caption{Average Rating and Price by Roast Level.\label{Figure1}}\label{fig:unnamed-chunk-5}
+\end{figure}
+
+\section{Indicator words}\label{indicator-words}
+
+Wrangle the data using a function:
+
+\subsection{Average Rating and Price by Review Indicator
+Words}\label{average-rating-and-price-by-review-indicator-words}
+
+This plot indicates that coffee brands that have reviews describing the
+aroma and chocolatiness of the coffee are the best deal when it comes to
+the ratings-price relationship. Subsequent analysis will be focused on
+these observations.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question1_files/figure-latex/unnamed-chunk-7-1} 
+
+}
+
+\caption{Average Rating and Price by Review Indicator Words.\label{Figure1}}\label{fig:unnamed-chunk-7}
+\end{figure}
+
+\subsection{Boxplot by Country and Roast
+Level}\label{boxplot-by-country-and-roast-level}
+
+The goal is to trim the most expensive coffee products. Boxplot shows
+the outliers in red. The boxplot also illustrates that Taiwan and the US
+are the have the most roasters.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question1_files/figure-latex/unnamed-chunk-8-1} 
+
+}
+
+\caption{Price by Country and Roast level.\label{Figure1}}\label{fig:unnamed-chunk-8}
+\end{figure}
+
+\subsection{Price Distribution}\label{price-distribution}
+
+The distribution in price aids in determining where a hard cap on the
+price should be. At USD8 per 100 grams, there is a fall in the number of
+coffee products sold at this price, and provides a reasonable cap.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question1_files/figure-latex/unnamed-chunk-9-1} 
+
+}
+
+\caption{Price Distribution.\label{Figure1}}\label{fig:unnamed-chunk-9}
+\end{figure}
+
+\subsection{Tile Plot}\label{tile-plot}
+
+This plot depicts the average ratings by roaster and roast level once
+the coffee products that have a cost larger than USD8 and roasters that
+only supply one remaining product have been filtered out. The reasoning
+is that a distributor can provide a diversified selction of products.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question1_files/figure-latex/unnamed-chunk-10-1} 
+
+}
+
+\caption{Average Rating by Roaster and Roast Level.\label{Figure1}}\label{fig:unnamed-chunk-10}
+\end{figure}
+
+\subsection{Prices and Ratings for
+Roasters}\label{prices-and-ratings-for-roasters}
+
+The plot below displays the price-ratings relationship for narrowd-down
+roasters. Kakalove Cafe seems to be a promising supplier, with most of
+its product prices falling the lowest, and receiving the highest some of
+the highest ratings. They also produce a variety of products.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{25424971Question1_files/figure-latex/unnamed-chunk-11-1} 
+
+}
+
+\caption{Ultimate Prices and Ratings.\label{Figure1}}\label{fig:unnamed-chunk-11}
+\end{figure}
+
+\bibliography{Tex/ref}
+
+
+
+
+
+\end{document}

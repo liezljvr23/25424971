@@ -20,7 +20,3 @@ plot_rating_vs_price <- function(data, group_var,
         )
     g
 }
-
-# Usage:
-plot_rating_vs_price(data = coffee_filtered, group_var = loc_country)
-plot_rating_vs_price(data = coffee_filtered, group_var = roast)
