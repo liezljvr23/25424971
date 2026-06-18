@@ -55,7 +55,7 @@ coffee_data <- read.csv("25424971Question1/data/Coffee/Coffee.csv") %>%
 ### Average Rating and Price by Roaster Location
 The plot below indicates that Australia and England are clear outliers. Although roasters in these countries have, on average, the highest ratings, all the countries receive an average rating of 90 or above. I would suggest that the prices disqualify the further consideration of Australian and English roasters.
 
-```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Average Rating and Price by Roaster Country.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r,  warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 g <-
     plot_rating_vs_price(data = coffee_data, group_var = loc_country, title = "Average Rating and Price by Roaster Country")
     
@@ -66,7 +66,7 @@ g
 ### Average Rating and Price by Roaster Location, excluding Outliers
 Ratings cluster between 92 and 94, however, outliers in price remain.
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Rating and Price by Location of Roaster without Outliers.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7 }
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7 }
 
 coffee_filtered <- coffee_data %>% 
     filter(!loc_country %in% c("Australia", "England"))
@@ -94,7 +94,7 @@ coffee_data %>%
 
 ```
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Rating and Price by Roast Level.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 k <-
     plot_rating_vs_price(data = coffee_filtered, group_var = roast, title = "Average Rating and Price by Roast Level")
     
@@ -119,7 +119,7 @@ head(coffee_indicators, 10)
 ### Average Rating and Price by Review Indicator Words
 This plot indicates that coffee brands that have reviews describing the aroma and chocolatiness of the coffee are the best deal when it comes to the ratings-price relationship. Subsequent analysis will be focused on these observations.
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Rating and Price by Review Indicator Words.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 g <-
     plot_rating_vs_price(data = coffee_indicators, group_var = matched_words, title = "Average Rating and Price by Review Indicator Words")
     
@@ -130,7 +130,7 @@ g
 ### Boxplot by Country and Roast Level
 The goal is to trim the most expensive coffee products (this is informed by the subsequent analysis). Boxplot shows the outliers in red. The boxplot also illustrates that Taiwan and the US are the have the most roasters.
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Boxplot.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 d <- plot_cost_boxplot(data = coffee_indicators)
 d
@@ -140,7 +140,7 @@ d
 ### Price Distribution
 The distribution in price aids in determining where a hard cap on the price should be. At USD8 per 100 grams, there is a fall in the number of coffee products sold at this price, and provides a reasonable cap.
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Price Distribution.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7,}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7,}
 
 d <- plot_cost_distribution(data = coffee_indicators, cutoff = 8)
 d
@@ -155,7 +155,7 @@ I have decided on USD8 as the cutoff price and now I can use the tile graph. It 
 
 This plot depicts the average ratings by roaster and roast level once the coffee products that have a cost larger than USD8 and roasters that only supply one remaining product have been filtered out. The reasoning is that a distributor can provide a diversified selection of products.
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Tile Plot.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 f <- plot_choc_aroma_tile(data = coffee_indicators)
 f
@@ -166,7 +166,7 @@ f
 ### Prices and Ratings for Roasters
 The plot below displays the price-ratings relationship for narrowd-down roasters. Kakalove Cafe seems to be a promising supplier, with most of its product prices falling the lowest, and receiving the highest some of the highest ratings. They also produce a variety of products. 
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Ultimate Price and Ratings.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 f <- plot_choc_aroma_scatter(data = coffee_indicators)
 f
@@ -238,7 +238,7 @@ name_surges <- get_surges(national_ranked)
 
 ```
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Mallory Popularity Over Time.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 b <- plot_name_trend(national_ranked, "Mallory")
 b
 
@@ -250,7 +250,7 @@ Inspired by the Beatles documentary, "Get Back", I want to look into "Jude". It 
 
 According to the Billbord Hot 100, The Beatles's hit song, "Hey Jude", was charting for 19 weeks between 1968 and 1969. Further, the credits for popular films reveal that Jude Law stardom may also drive interest in this gender neutral name. These two case studies depict the impact of the media in naming conventions
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Jude Popularity Over Time.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 b <- plot_name_jude(national_ranked, "Jude")
 b

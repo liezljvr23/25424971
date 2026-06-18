@@ -66,10 +66,7 @@ g <-
 g
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="Average Rating and Price by Roaster Country.\label{Figure1}"  />
-<p class="caption">
-Average Rating and Price by Roaster Country.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Average Rating and Price by Roaster Location, excluding Outliers
 
@@ -83,10 +80,7 @@ g <- plot_rating_vs_price(data = coffee_filtered, group_var = loc_country, title
 g
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="Average Rating and Price by Location of Roaster without Outliers.\label{Figure1}"  />
-<p class="caption">
-Average Rating and Price by Location of Roaster without Outliers.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Average Rating and Price by Roast Level
 
@@ -136,10 +130,7 @@ k <-
 k
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="Average Rating and Price by Roast Level.\label{Figure1}"  />
-<p class="caption">
-Average Rating and Price by Roast Level.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" style="display: block; margin: auto;" />
 
 ## Indicator words
 
@@ -200,10 +191,7 @@ g <-
 g
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="Average Rating and Price by Review Indicator Words.\label{Figure1}"  />
-<p class="caption">
-Average Rating and Price by Review Indicator Words.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Boxplot by Country and Roast Level
 
@@ -217,10 +205,7 @@ d <- plot_cost_boxplot(data = coffee_indicators)
 d
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="Boxplot.\label{Figure1}"  />
-<p class="caption">
-Boxplot.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Price Distribution
 
@@ -233,10 +218,7 @@ d <- plot_cost_distribution(data = coffee_indicators, cutoff = 8)
 d
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="Price Distribution.\label{Figure1}"  />
-<p class="caption">
-Price Distribution.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Tile Plot
 
@@ -271,10 +253,7 @@ f <- plot_choc_aroma_tile(data = coffee_indicators)
 f
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="Tile Plot.\label{Figure1}"  />
-<p class="caption">
-Tile Plot.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Prices and Ratings for Roasters
 
@@ -288,10 +267,7 @@ f <- plot_choc_aroma_scatter(data = coffee_indicators)
 f
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-12-1.png" alt="Ultimate Price and Ratings.\label{Figure1}"  />
-<p class="caption">
-Ultimate Price and Ratings.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-12-1.png" alt="" style="display: block; margin: auto;" />
 
 # Question 2:
 
@@ -377,10 +353,7 @@ following the 1982 premiere of “Family Ties” that included the
 character, Mallory Keaton. It’s popularity dulled over the years,
 illustrating the influence of popular culture on baby names.
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-16-1.png" alt="Mallory Popularity Over Time.\label{Figure1}"  />
-<p class="caption">
-Mallory Popularity Over Time.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-16-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Name Trends: Jude
 
@@ -396,10 +369,7 @@ for popular films reveal that Jude Law stardom may also drive interest
 in this gender neutral name. These two case studies depict the impact of
 the media in naming conventions
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-17-1.png" alt="Jude Popularity Over Time.\label{Figure1}"  />
-<p class="caption">
-Jude Popularity Over Time.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-17-1.png" alt="" style="display: block; margin: auto;" />
 
 ## Conclusion
 
