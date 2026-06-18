@@ -220,7 +220,7 @@ spearman_results <- get_spearman_results(top_25_names, national_ranked)
 
 The time-series representations below depict the rank correlations of baby names in the US from 1910-2014. It seems that boy names are more persistent than girls names. It does appear that after the 1990's, names become less persistent, with the correlations becoming smaller. The persistence in name trends has fallen for both girl and boy names over time, however, trends seem to persistent longer still for boy names.
 
-```{r, warning =  FALSE, fig.align = 'center', fig.cap = "Spearman Rank Correlation.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+```{r, warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 g <- plot_spearman_trends(spearman_results)
 g

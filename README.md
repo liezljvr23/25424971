@@ -357,10 +357,7 @@ become less persistent, with the correlations becoming smaller. The
 persistence in name trends has fallen for both girl and boy names over
 time, however, trends seem to persistent longer still for boy names.
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-14-1.png" alt="Spearman Rank Correlation.\label{Figure1}"  />
-<p class="caption">
-Spearman Rank Correlation.
-</p>
+<img src="README_files/figure-markdown_github/unnamed-chunk-14-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Surges in Names
 
