@@ -19,7 +19,7 @@ Texevier::create_template(directory = glue::glue("{CHOSEN_LOCATION}/"), template
 
 # Question 1: Coffee
 
-This sections explores the potential coffee distributors for a coffee
+This section explores the potential coffee distributors for a coffee
 shop in Stellenbosch. The cost (in USD), the roaster company, the roast
 strength, ratings, and reviews of the coffees are considered.
 Ulitimately, A supplier, Kakalove Cafe, is recommended

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.18)  18 JUN 2026 15:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.18)  18 JUN 2026 19:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -657,10 +657,10 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 <25424971Question1_files/figure-latex/unnamed-chunk-2-1.png, id=48, 505.89pt x 361.35pt>
 File: 25424971Question1_files/figure-latex/unnamed-chunk-2-1.png Graphic file (type png)
 <use 25424971Question1_files/figure-latex/unnamed-chunk-2-1.png>
-Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-2-1.png  used on input line 267.
+Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-2-1.png  used on input line 265.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 267--268
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 265--266
  [][] 
  []
 
@@ -671,10 +671,10 @@ Overfull \hbox (22.4766pt too wide) in paragraph at lines 267--268
 <25424971Question1_files/figure-latex/unnamed-chunk-3-1.png, id=62, 505.89pt x 361.35pt>
 File: 25424971Question1_files/figure-latex/unnamed-chunk-3-1.png Graphic file (type png)
 <use 25424971Question1_files/figure-latex/unnamed-chunk-3-1.png>
-Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-3-1.png  used on input line 281.
+Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-3-1.png  used on input line 279.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 281--282
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 279--280
  [][] 
  []
 
@@ -682,10 +682,10 @@ Overfull \hbox (22.4766pt too wide) in paragraph at lines 281--282
 <25424971Question1_files/figure-latex/unnamed-chunk-5-1.png, id=73, 505.89pt x 361.35pt>
 File: 25424971Question1_files/figure-latex/unnamed-chunk-5-1.png Graphic file (type png)
 <use 25424971Question1_files/figure-latex/unnamed-chunk-5-1.png>
-Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-5-1.png  used on input line 297.
+Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-5-1.png  used on input line 295.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 297--298
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 295--296
  [][] 
  []
 
@@ -693,10 +693,10 @@ Overfull \hbox (22.4766pt too wide) in paragraph at lines 297--298
 <25424971Question1_files/figure-latex/unnamed-chunk-7-1.png, id=84, 505.89pt x 361.35pt>
 File: 25424971Question1_files/figure-latex/unnamed-chunk-7-1.png Graphic file (type png)
 <use 25424971Question1_files/figure-latex/unnamed-chunk-7-1.png>
-Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-7-1.png  used on input line 318.
+Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-7-1.png  used on input line 316.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 318--319
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 316--317
  [][] 
  []
 
@@ -704,10 +704,10 @@ Overfull \hbox (22.4766pt too wide) in paragraph at lines 318--319
 <25424971Question1_files/figure-latex/unnamed-chunk-8-1.png, id=95, 505.89pt x 361.35pt>
 File: 25424971Question1_files/figure-latex/unnamed-chunk-8-1.png Graphic file (type png)
 <use 25424971Question1_files/figure-latex/unnamed-chunk-8-1.png>
-Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-8-1.png  used on input line 334.
+Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-8-1.png  used on input line 332.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 334--335
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 332--333
  [][] 
  []
 
@@ -715,10 +715,10 @@ Overfull \hbox (22.4766pt too wide) in paragraph at lines 334--335
 <25424971Question1_files/figure-latex/unnamed-chunk-9-1.png, id=106, 505.89pt x 361.35pt>
 File: 25424971Question1_files/figure-latex/unnamed-chunk-9-1.png Graphic file (type png)
 <use 25424971Question1_files/figure-latex/unnamed-chunk-9-1.png>
-Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-9-1.png  used on input line 349.
+Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-9-1.png  used on input line 347.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 349--350
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 347--348
  [][] 
  []
 
@@ -726,10 +726,10 @@ Overfull \hbox (22.4766pt too wide) in paragraph at lines 349--350
 <25424971Question1_files/figure-latex/unnamed-chunk-10-1.png, id=117, 505.89pt x 361.35pt>
 File: 25424971Question1_files/figure-latex/unnamed-chunk-10-1.png Graphic file (type png)
 <use 25424971Question1_files/figure-latex/unnamed-chunk-10-1.png>
-Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-10-1.png  used on input line 365.
+Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-10-1.png  used on input line 363.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 365--366
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 363--364
  [][] 
  []
 
@@ -737,10 +737,10 @@ Overfull \hbox (22.4766pt too wide) in paragraph at lines 365--366
 <25424971Question1_files/figure-latex/unnamed-chunk-11-1.png, id=129, 505.89pt x 361.35pt>
 File: 25424971Question1_files/figure-latex/unnamed-chunk-11-1.png Graphic file (type png)
 <use 25424971Question1_files/figure-latex/unnamed-chunk-11-1.png>
-Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-11-1.png  used on input line 382.
+Package pdftex.def Info: 25424971Question1_files/figure-latex/unnamed-chunk-11-1.png  used on input line 380.
 (pdftex.def)             Requested size: 505.88875pt x 361.34912pt.
 
-Overfull \hbox (22.4766pt too wide) in paragraph at lines 382--383
+Overfull \hbox (22.4766pt too wide) in paragraph at lines 380--381
  [][] 
  []
 
@@ -766,7 +766,7 @@ Here is how much of TeX's memory you used:
  36 hyphenation exceptions out of 8191
  74i,11n,79p,554b,1034s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb></Users/liezljansenvanrensburg/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt9.pfb>
-Output written on 25424971Question1.pdf (9 pages, 231532 bytes).
+Output written on 25424971Question1.pdf (9 pages, 231515 bytes).
 PDF statistics:
  196 PDF objects out of 1000 (max. 8388607)
  150 compressed objects within 2 object streams

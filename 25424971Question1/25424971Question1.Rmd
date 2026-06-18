@@ -88,7 +88,7 @@ output:
 ---
 
 # Introduction 
-This sections explores the potential coffee distributors for a coffee shop in Stellenbosch. The cost (in USD), the roaster company, the roast strength, and reviews of the coffees are considered.
+This section explores the potential coffee distributors for a coffee shop in Stellenbosch. The cost (in USD), the roaster company, the roast strength, and reviews of the coffees are considered.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
@@ -116,7 +116,7 @@ coffee_data <- read.csv("data/Coffee/Coffee.csv") %>%
 
 
 ```
-I view the data:
+
 
 ```{r, include=FALSE}
 coffee_data %>% 
