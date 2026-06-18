@@ -153,10 +153,9 @@ summary(logit_model_2)
 ```
 
 
-
 ```{r, warning =  FALSE}
 stargazer(logit_model_1, logit_model_2,
-          type        = "text",           # use "html" if outputting to HTML Rmd
+          type        = "text",           
           title       = "Logistic Regression: Predictors of Loan Default",
           dep.var.labels = "Default (1 = Loss, 0 = Paid)",
           covariate.labels = c("Source Verified", "Verified",
@@ -167,7 +166,7 @@ stargazer(logit_model_1, logit_model_2,
                                "Grade B", "Grade C", "Grade D",
                                "Grade E", "Grade F", "Grade G",
                                "Interest Rate", "Term"),
-          #apply.coef  = exp,              # shows odds ratios instead of log-odds
+       
           p.auto      = TRUE,
           star.cutoffs = c(0.05, 0.01, 0.001),
           no.space    = TRUE)

@@ -220,7 +220,7 @@ d
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" style="display: block; margin: auto;" />
 
-### Tile Plot
+### Tile Plot to Visualise Average Ratings by Roaster and Roast level
 
 I have 4 variables that I now want to visualise 4 variables: roaster,
 roast, cost, and rating.The tile graph will have rating, roaster, and
@@ -277,7 +277,6 @@ data from 1910-2014.
 
 ``` r
 # set up
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
 
 if(!require ( "pacman" , quietly = TRUE ) ) {
    install.packages("pacman")
@@ -325,12 +324,23 @@ make the lag variable a factor in order to apply my favourite palette. I
 use the facet wrap so that I can view what is happening to girls’ and
 boys’ names separately.
 
+``` r
+national_ranked <- get_national_ranked(baby_names)
+top_25_names           <- get_top_25_names(national_ranked)
+spearman_results <- get_spearman_results(top_25_names, national_ranked)
+```
+
 The time-series representations below depict the rank correlations of
 baby names in the US from 1910-2014. It seems that boy names are more
 persistent than girls names. It does appear that after the 1990’s, names
 become less persistent, with the correlations becoming smaller. The
 persistence in name trends has fallen for both girl and boy names over
 time, however, trends seem to persistent longer still for boy names.
+
+``` r
+g <- plot_spearman_trends(spearman_results)
+g
+```
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-14-1.png" alt="" style="display: block; margin: auto;" />
 
@@ -352,6 +362,15 @@ following the 1982 premiere of “Family Ties” that included the
 character, Mallory Keaton. It’s popularity dulled over the years,
 illustrating the influence of popular culture on baby names.
 
+``` r
+name_surges <- get_surges(national_ranked)
+```
+
+``` r
+b <- plot_name_trend(national_ranked, "Mallory")
+b
+```
+
 <img src="README_files/figure-markdown_github/unnamed-chunk-16-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Name Influences: Jude
@@ -367,6 +386,11 @@ was charting for 19 weeks between 1968 and 1969. Further, the credits
 for popular films reveal that Jude Law stardom may also drive interest
 in this gender neutral name. These two case studies depict the impact of
 the media in naming conventions
+
+``` r
+b <- plot_name_jude(national_ranked, "Jude")
+b
+```
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-17-1.png" alt="" style="display: block; margin: auto;" />
 
@@ -405,6 +429,38 @@ For analysis, I will look at concluded loans only (either fully paid or
 loss/default). I make a function to pull only this data and create an
 object for resolved loans.
 
+``` r
+if(!require ( "pacman" , quietly = TRUE ) ) {
+   install.packages("pacman")
+   library(pacman)
+}
+
+if(!require ( "stargazer" , quietly = TRUE ) ) {
+   install.packages("stargazer")
+   library(stargazer)
+   }
+```
+
+    ## 
+    ## Please cite as:
+
+    ##  Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+
+    ##  R package version 5.2.3. https://CRAN.R-project.org/package=stargazer
+
+``` r
+pacman::p_load(purrr, lubridate, tidymodels, ggridges, ggthemes, readxl, tidyverse, lubridate, zoo, pwt10,janitor, ggsci, haven, knitr)
+
+list.files('25424971Question3/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+# load data
+loan_credit <- read_rds("25424971Question3/data/Loan_Cred/loan_data.rds")
+
+# New category variables are created and the dataframe is simplified.
+loan_clean <- get_clean_loans(loan_credit)
+loan_resolved <- make_loan_resolved(loan_clean)
+```
+
 ## Inspecting the Hypothesised Key Drivers
 
 Summary statistics on the key variables reveal the need for tweaks in
@@ -415,6 +471,14 @@ cleaning function is adapted to filter to trim and correct these and to
 declare verification status variable as a factor and the earliest credit
 line variable is mutated to an age. This yields satisfactory summary
 statistics
+
+``` r
+loan_resolved %>% 
+    select(verification_status, dti, credit_age_yrs, 
+           pub_rec_bankruptcies, pct_tl_nvr_dlq, 
+           mort_acc, bc_util, num_rev_accts) %>% 
+    summary()
+```
 
     ##       verification_status      dti        credit_age_yrs  pub_rec_bankruptcies
     ##  Not Verified   :109014   Min.   : 0.00   Min.   :11.00   Min.   :0.0000      
@@ -439,6 +503,22 @@ Concluded loans is my dependent variable. Since it is binary, I will use
 a logit. The second regression adds the credit grade, interest rate, and
 term length as regressors.
 
+``` r
+logit_model_1 <- glm(concluded_loan ~ verification_status + dti + credit_age_yrs +
+                       pub_rec_bankruptcies + pct_tl_nvr_dlq + 
+                       mort_acc + bc_util + num_rev_accts,
+                   data   = loan_resolved,
+                   family = binomial(link = "logit"))
+
+
+logit_model_2 <- glm(concluded_loan ~ verification_status + dti + credit_age_yrs +
+                         pub_rec_bankruptcies + pct_tl_nvr_dlq + 
+                         mort_acc + bc_util + num_rev_accts +
+                         grade + int_rate + term,
+                     data   = loan_resolved,
+                     family = binomial(link = "logit"))
+```
+
 ### Results from Logistic Regressions
 
 Across both specifications, all the coefficients are statistically
@@ -452,6 +532,25 @@ associated with a lower default rate. Although the positive relationship
 between verification status and default risk may seem counterintuitive,
 it indicates selection bias, where a background check is run on
 individuals who are in a worse financial position.
+
+``` r
+stargazer(logit_model_1, logit_model_2,
+          type        = "text",           # use "html" if outputting to HTML Rmd
+          title       = "Logistic Regression: Predictors of Loan Default",
+          dep.var.labels = "Default (1 = Loss, 0 = Paid)",
+          covariate.labels = c("Source Verified", "Verified",
+                               "DTI", "Credit Age",
+                               "Prior Bankruptcies", "% Never Delinquent",
+                               "Mortgage Accounts", "Bankcard Utilisation",
+                               "No. Revolving Accounts",
+                               "Grade B", "Grade C", "Grade D",
+                               "Grade E", "Grade F", "Grade G",
+                               "Interest Rate", "Term"),
+          #apply.coef  = exp,              # shows odds ratios instead of log-odds
+          p.auto      = TRUE,
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          no.space    = TRUE)
+```
 
     ## 
     ## Logistic Regression: Predictors of Loan Default
@@ -522,6 +621,13 @@ The plot below illustrates that default rates increase as credit grades
 worsen. Customers that are assigned poor Lending Club credit grades are
 at higher risk of defaulting on their debt.
 
+``` r
+d <- plot_default_by_group(loan_resolved, grade,
+                      title   = "Default Rate by Credit Grade",
+                      x_label = "Credit Grade")
+d
+```
+
 <img src="README_files/figure-markdown_github/unnamed-chunk-22-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Default Rate by Home Ownership
@@ -532,6 +638,14 @@ lowest average default rate, supporting the findings of the logit
 regression, where the number of mortgages negatively relates to the
 default rate. This may simply be a proxy for income.
 
+``` r
+d <- plot_default_by_group(loan_resolved, home_ownership,
+                      title   = "Default Rate by Home Ownership",
+                      x_label = "Home Ownership"
+                      )
+d
+```
+
 <img src="README_files/figure-markdown_github/unnamed-chunk-23-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Default Rate by Employment Length
@@ -539,6 +653,14 @@ default rate. This may simply be a proxy for income.
 The default rate appers to be similarly distributed across employment
 lengths, with a slight downward trend, such that longer employment years
 (stable income) indicate a slightly lower risk of default.
+
+``` r
+c <- plot_default_by_group(loan_resolved, emp_length,
+                      title   = "Default Rate by Employment Length",
+                      x_label = "Employment Length")
+                      
+c
+```
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-24-1.png" alt="" style="display: block; margin: auto;" />
 
@@ -550,11 +672,23 @@ states iintroduce increased risk. Whereas individuals from DC, Maine,
 New Hampshire, Oregan, Vermont, and West Virginia signal prudence, as
 these states have the lowest average default rates.
 
+``` r
+c <-  plot_default_by_state(loan_resolved)
+                      
+c
+```
+
 <img src="README_files/figure-markdown_github/unnamed-chunk-25-1.png" alt="" style="display: block; margin: auto;" />
 
 ### Default Rate by State for Short Term Loans Only
 
 The state analysis is similar when only short-term loans are considered.
+
+``` r
+c <-  ST_plot_default_by_state(loan_resolved)
+                      
+c
+```
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-26-1.png" alt="" style="display: block; margin: auto;" />
 
@@ -564,6 +698,14 @@ Individuals who cite funding a small business or planning a wedding as
 the reason for their debt obligations are at the highest risk of
 defaulting on their loans.
 
+``` r
+c <- plot_default_by_group(loan_resolved, purpose,
+                      title   = "Default Rate by Purpose of Debt",
+                      x_label = "Purpose")
+                      
+c
+```
+
 <img src="README_files/figure-markdown_github/unnamed-chunk-27-1.png" alt="" style="display: block; margin: auto;" />
 
 ## The Debt-to-Income and Loan Status Relationship
@@ -572,6 +714,12 @@ The average debt-to-income ratio is the highest for those who have
 defaulted on their loans and completely written their loans off,
 although the variance is not large across these broader loan status
 groups.
+
+``` r
+c <-  plot_dti_by_outcome(loan_clean)
+                      
+c
+```
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-28-1.png" alt="" style="display: block; margin: auto;" />
 

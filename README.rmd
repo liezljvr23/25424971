@@ -146,7 +146,7 @@ d <- plot_cost_distribution(data = coffee_indicators, cutoff = 8)
 d
 ```
 
-### Tile Plot
+### Tile Plot to Visualise Average Ratings by Roaster and Roast level
 I have 4 variables that I now want to visualise 4 variables: roaster, roast, cost, and rating.The tile graph will have rating, roaster, and roast. I start with a new function that filters to the observations that have aroma and chocolate indicator words in their reviews. This then gets passed to a ggplot to make a tile graph. I need to calculate a midpoint for the graph, so I do that before the tile plot code. I see that I have to pull the midpoint otherwise it is a dataframe and there are issues later on. I then just do the tile plot code like I practised. I'm sure I can improve the functionality to make it more generic, but this will do for now.
 
 There are still way too many roasters. I should go back and use price distributions to decide on a cutoff price. 
@@ -179,7 +179,6 @@ This report explores the persistence in baby name trends, as well as the potenti
 
 ```{r setup}
 # set up
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
 
 if(!require ( "pacman" , quietly = TRUE ) ) {
    install.packages("pacman")
